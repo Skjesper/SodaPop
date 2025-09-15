@@ -1,4 +1,4 @@
-import { CONFIG_OPTIONS, DEFAULT_CONFIG } from "../../config/modelConfig";
+import { CONFIG_OPTIONS, DEFAULT_CONFIG } from "./../../config/modelConfig";
 import styles from "../../styles/configurator.module.css";
 
 export default function ConfiguratorPanel({ config, setConfig }) {

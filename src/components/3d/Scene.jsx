@@ -1,5 +1,5 @@
 // src/components/3d/Scene.jsx
-import { OrbitControls, Environment } from "@react-three/drei";
+import { OrbitControls } from "@react-three/drei";
 import { Suspense } from "react";
 import Model from "./Model";
 
@@ -7,7 +7,7 @@ import Model from "./Model";
 function ModelFallback() {
   return (
     <mesh position={[0, 0, 0]} castShadow receiveShadow>
-      <boxGeometry args={[2, 2, 2]} />
+      <cylinderGeometry args={[1, 1, 3, 8]} />
       <meshStandardMaterial color="#ff4444" />
     </mesh>
   );
@@ -16,12 +16,13 @@ function ModelFallback() {
 export default function Scene({ config }) {
   return (
     <>
-      {/* Lighting Setup */}
-      <ambientLight intensity={0.4} />
+      {/* Enhanced Lighting Setup (replacing Environment) */}
+      <ambientLight intensity={0.3} />
 
+      {/* Main directional light */}
       <directionalLight
         position={[5, 5, 5]}
-        intensity={1}
+        intensity={1.2}
         castShadow
         shadow-mapSize-width={2048}
         shadow-mapSize-height={2048}
@@ -32,8 +33,19 @@ export default function Scene({ config }) {
         shadow-camera-bottom={-10}
       />
 
-      <pointLight position={[-5, 5, 5]} intensity={0.5} />
-      <pointLight position={[5, -5, -5]} intensity={0.3} />
+      {/* Fill lights for better illumination */}
+      <pointLight position={[-5, 5, 5]} intensity={0.6} color="#ffffff" />
+      <pointLight position={[5, -5, -5]} intensity={0.4} color="#ffffff" />
+      <pointLight position={[0, 5, -5]} intensity={0.3} color="#ffeaa7" />
+
+      {/* Rim lighting for better shape definition */}
+      <spotLight
+        position={[-3, 3, 3]}
+        angle={0.3}
+        penumbra={1}
+        intensity={0.5}
+        color="#74b9ff"
+      />
 
       {/* Model with Suspense fallback */}
       <Suspense fallback={<ModelFallback />}>
@@ -47,7 +59,7 @@ export default function Scene({ config }) {
       {/* Ground plane for shadows and context */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]} receiveShadow>
         <planeGeometry args={[10, 10]} />
-        <meshStandardMaterial color="#f0f0f0" />
+        <meshStandardMaterial color="#f0f0f0" roughness={0.8} metalness={0.1} />
       </mesh>
 
       {/* Camera controls */}
@@ -59,10 +71,9 @@ export default function Scene({ config }) {
         maxDistance={10}
         maxPolarAngle={Math.PI / 2}
         target={[0, 0, 0]}
+        enableDamping={true}
+        dampingFactor={0.05}
       />
-
-      {/* Environment lighting for realistic reflections */}
-      <Environment preset="sunset" />
     </>
   );
 }
