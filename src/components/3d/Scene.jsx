@@ -1,6 +1,17 @@
 // src/components/3d/Scene.jsx
 import { OrbitControls, Environment } from "@react-three/drei";
+import { Suspense } from "react";
 import Model from "./Model";
+
+// Simple fallback component
+function ModelFallback() {
+  return (
+    <mesh position={[0, 0, 0]} castShadow receiveShadow>
+      <boxGeometry args={[2, 2, 2]} />
+      <meshStandardMaterial color="#ff4444" />
+    </mesh>
+  );
+}
 
 export default function Scene({ config }) {
   return (
@@ -24,13 +35,14 @@ export default function Scene({ config }) {
       <pointLight position={[-5, 5, 5]} intensity={0.5} />
       <pointLight position={[5, -5, -5]} intensity={0.3} />
 
-      {/* Your GLTF Model */}
-      <Model
-        modelPath={config.modelPath}
-        color={config.color}
-        material={config.material}
-        textureUrl={config.textureUrl}
-      />
+      {/* Model with Suspense fallback */}
+      <Suspense fallback={<ModelFallback />}>
+        <Model
+          color={config.color}
+          material={config.material}
+          textureUrl={config.textureUrl}
+        />
+      </Suspense>
 
       {/* Ground plane for shadows and context */}
       <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]} receiveShadow>

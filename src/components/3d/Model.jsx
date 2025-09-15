@@ -1,26 +1,57 @@
 // src/components/3d/Model.jsx
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF, useTexture } from "@react-three/drei";
 import * as THREE from "three";
 
+// Fallback component if model fails to load
+function ModelFallback({ color, material }) {
+  return (
+    <mesh position={[0, 0, 0]} castShadow receiveShadow>
+      <cylinderGeometry args={[1, 1, 3, 8]} />
+      <meshStandardMaterial
+        color={color}
+        roughness={material.roughness}
+        metalness={material.metalness}
+      />
+    </mesh>
+  );
+}
+
 export default function Model({ color, material, textureUrl }) {
   const groupRef = useRef();
+  const [modelError, setModelError] = useState(false);
+  const [textureError, setTextureError] = useState(false);
 
-  // Load your actual GLTF file
-  const { scene } = useGLTF("/sodacan.gltf");
+  // Try to load the GLTF model with error handling
+  let gltf = null;
+  try {
+    gltf = useGLTF("/sodacan.gltf");
+  } catch (error) {
+    console.warn("Failed to load GLTF model:", error);
+    setModelError(true);
+  }
 
-  // Load texture if provided - handle potential errors
+  // Try to load texture with error handling
   let texture = null;
   try {
-    texture = textureUrl ? useTexture(textureUrl) : null;
+    if (textureUrl && !textureError) {
+      texture = useTexture(textureUrl);
+    }
   } catch (error) {
     console.warn("Failed to load texture:", textureUrl, error);
+    setTextureError(true);
     texture = null;
   }
 
+  // If model failed to load, show fallback
+  if (modelError || !gltf?.scene) {
+    console.log("Using fallback model - GLTF failed to load");
+    return <ModelFallback color={color} material={material} />;
+  }
+
   // Clone the scene to avoid modifying the original
-  const clonedScene = scene.clone();
+  const clonedScene = gltf.scene.clone();
 
   // Apply materials to the model
   useEffect(() => {
@@ -67,5 +98,9 @@ export default function Model({ color, material, textureUrl }) {
   );
 }
 
-// Preload the model for better performance
-useGLTF.preload("/sodacan.gltf");
+// Only preload if the file exists
+try {
+  useGLTF.preload("/sodacan.gltf");
+} catch (error) {
+  console.warn("Could not preload GLTF model");
+}
