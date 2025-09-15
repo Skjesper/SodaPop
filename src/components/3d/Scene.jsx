@@ -1,4 +1,3 @@
-// src/components/3d/Scene.jsx
 import { OrbitControls } from "@react-three/drei";
 import { Suspense } from "react";
 import Model from "./Model";
@@ -53,22 +52,17 @@ export default function Scene({ config }) {
           color={config.color}
           material={config.material}
           textureUrl={config.textureUrl}
+          showDebug={false}
         />
       </Suspense>
 
-      {/* Ground plane for shadows and context */}
-      <mesh rotation={[-Math.PI / 2, 0, 0]} position={[0, -2, 0]} receiveShadow>
-        <planeGeometry args={[10, 10]} />
-        <meshStandardMaterial color="#f0f0f0" roughness={0.8} metalness={0.1} />
-      </mesh>
-
       {/* Camera controls */}
       <OrbitControls
-        enablePan={true}
+        enablePan={false}
         enableZoom={true}
         enableRotate={true}
-        minDistance={3}
-        maxDistance={10}
+        minDistance={10}
+        maxDistance={100}
         maxPolarAngle={Math.PI / 2}
         target={[0, 0, 0]}
         enableDamping={true}

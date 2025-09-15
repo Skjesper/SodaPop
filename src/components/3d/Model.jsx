@@ -1,4 +1,3 @@
-// src/components/3d/Model.jsx
 import { useRef, useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF, useTexture } from "@react-three/drei";
@@ -22,6 +21,7 @@ export default function Model({ color, material, textureUrl }) {
   const groupRef = useRef();
   const [modelError, setModelError] = useState(false);
   const [textureError, setTextureError] = useState(false);
+  const [boundingBox, setBoundingBox] = useState(null);
 
   // Try to load the GLTF model with error handling
   let gltf = null;
@@ -53,29 +53,58 @@ export default function Model({ color, material, textureUrl }) {
   // Clone the scene to avoid modifying the original
   const clonedScene = gltf.scene.clone();
 
-  // Apply materials to the model
+  // Calculate bounding box for auto-centering
+  useEffect(() => {
+    if (clonedScene && groupRef.current) {
+      const timer = setTimeout(() => {
+        const box = new THREE.Box3().setFromObject(groupRef.current);
+        const center = box.getCenter(new THREE.Vector3());
+        const size = box.getSize(new THREE.Vector3());
+
+        setBoundingBox({
+          center: { x: center.x, y: center.y, z: center.z },
+          size: { x: size.x, y: size.y, z: size.z },
+        });
+      }, 100);
+
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  // Apply different materials to different parts
   useEffect(() => {
     if (clonedScene) {
       clonedScene.traverse((child) => {
         if (child.isMesh) {
-          // Store original material name for reference
-          const originalMaterialName = child.material?.name;
+          const meshName = child.name.toLowerCase();
 
-          // Create new material based on configuration
-          const newMaterial = new THREE.MeshStandardMaterial({
-            color: color,
-            roughness: material.roughness,
-            metalness: material.metalness,
-            map: texture,
-            // Preserve some original material properties if needed
-            transparent: child.material?.transparent || false,
-            alphaTest: child.material?.alphaTest || 0,
-          });
+          // Apply materials based on the mesh names we discovered
+          if (meshName === "base") {
+            // Metal material for base (bottom)
+            child.material = new THREE.MeshStandardMaterial({
+              color: "#9a9a9a", // Silver
+              roughness: 0.3,
+              metalness: 0.9,
+              map: texture,
+            });
+          } else if (meshName === "uppiece") {
+            // Metal material for uppiece (top)
+            child.material = new THREE.MeshStandardMaterial({
+              color: "#c0c0c0", // Silver
+              roughness: 0.3,
+              metalness: 0.9,
+              map: texture,
+            });
+          } else {
+            // Matte material for body, upcontorn, ringball, ringpart1
+            child.material = new THREE.MeshStandardMaterial({
+              color: color,
+              roughness: material.roughness,
+              metalness: material.metalness,
+              map: texture,
+            });
+          }
 
-          // Copy material name for debugging
-          newMaterial.name = originalMaterialName || "ConfiguredMaterial";
-
-          child.material = newMaterial;
           child.castShadow = true;
           child.receiveShadow = true;
         }
@@ -83,22 +112,38 @@ export default function Model({ color, material, textureUrl }) {
     }
   }, [clonedScene, color, material, texture]);
 
-  // Optional: Add subtle rotation animation
+  // Smooth rotation animation
   useFrame((state) => {
     if (groupRef.current) {
-      groupRef.current.rotation.y =
-        Math.sin(state.clock.elapsedTime * 0.3) * 0.1;
+      groupRef.current.rotation.y = state.clock.elapsedTime * 0.5;
     }
   });
 
   return (
     <group ref={groupRef}>
-      <primitive object={clonedScene} position={[0, 0, 0]} scale={[1, 1, 1]} />
+      {/* Auto-center the model based on bounding box */}
+      <group
+        position={
+          boundingBox
+            ? [
+                -boundingBox.center.x,
+                -boundingBox.center.y,
+                -boundingBox.center.z,
+              ]
+            : [0, 0, 0]
+        }
+      >
+        <primitive
+          object={clonedScene}
+          position={[0, 0, 0]}
+          scale={[0.5, 0.5, 0.5]}
+        />
+      </group>
     </group>
   );
 }
 
-// Only preload if the file exists
+// Preload the model
 try {
   useGLTF.preload("/sodacan.gltf");
 } catch (error) {

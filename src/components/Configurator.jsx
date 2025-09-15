@@ -15,7 +15,12 @@ export default function Configurator() {
     <div className={styles.appContainer}>
       <Canvas
         shadows
-        camera={{ position: [0, 0, 6], fov: 60 }}
+        camera={{
+          position: [0, 0, 50],
+          fov: 30,
+          near: 0.1,
+          far: 1000,
+        }}
         gl={{ antialias: true, alpha: false }}
         dpr={[1, 2]}
         className={styles.canvasContainer}
