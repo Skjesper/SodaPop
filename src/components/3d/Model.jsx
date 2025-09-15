@@ -82,7 +82,7 @@ export default function Model({ color, material, textureUrl }) {
           if (meshName === "base") {
             // Metal material for base (bottom)
             child.material = new THREE.MeshStandardMaterial({
-              color: "#9a9a9a", // Silver
+              color: "#dcdcdc", // Silver
               roughness: 0.3,
               metalness: 0.9,
               map: texture,
@@ -90,7 +90,7 @@ export default function Model({ color, material, textureUrl }) {
           } else if (meshName === "uppiece") {
             // Metal material for uppiece (top)
             child.material = new THREE.MeshStandardMaterial({
-              color: "#c0c0c0", // Silver
+              color: "#cdcdcd", // Silver
               roughness: 0.3,
               metalness: 0.9,
               map: texture,
