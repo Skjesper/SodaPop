@@ -1,7 +1,8 @@
 import { useRef, useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
-import { useGLTF, useTexture } from "@react-three/drei";
+import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
+import { useOptionalTexture } from "./../../hooks/useOptionalTexture";
 
 // Fallback component if model fails to load
 function ModelFallback({ color, material }) {
@@ -17,40 +18,27 @@ function ModelFallback({ color, material }) {
   );
 }
 
-export default function Model({ color, material, textureUrl }) {
+export default function Model({
+  color,
+  material,
+  textureUrl,
+  textureControls,
+}) {
   const groupRef = useRef();
   const [modelError, setModelError] = useState(false);
-  const [textureError, setTextureError] = useState(false);
   const [boundingBox, setBoundingBox] = useState(null);
 
-  // Try to load the GLTF model with error handling
+  // Always call hooks in the same order - load GLTF
   let gltf = null;
   try {
     gltf = useGLTF("/sodacan.gltf");
-    // Check if there are any images in the raw JSON that we missed
-    console.log("Raw JSON keys:", Object.keys(gltf.parser.json));
-    console.log("Any images?", gltf.parser.json.images);
-    console.log("Any textures?", gltf.parser.json.textures);
-
-    // Check the buffer more thoroughly - it might contain image data
-    const buffer = gltf.parser.json.buffers[0];
-    console.log("Buffer starts with:", buffer.uri.substring(0, 100));
   } catch (error) {
     console.warn("Failed to load GLTF model:", error);
     setModelError(true);
   }
 
-  // Try to load texture with error handling
-  let texture = null;
-  try {
-    if (textureUrl && !textureError) {
-      texture = useTexture(textureUrl);
-    }
-  } catch (error) {
-    console.warn("Failed to load texture:", textureUrl, error);
-    setTextureError(true);
-    texture = null;
-  }
+  // Use our custom hook that safely handles optional textures
+  const { texture, isLoading } = useOptionalTexture(textureUrl);
 
   // If model failed to load, show fallback
   if (modelError || !gltf?.scene) {
@@ -77,69 +65,94 @@ export default function Model({ color, material, textureUrl }) {
 
       return () => clearTimeout(timer);
     }
-  }, []);
+  }, []); // Empty dependency array - only calculate once!
 
   // Apply different materials to different parts
   useEffect(() => {
     if (clonedScene) {
+      console.log("=== UV Coordinate Analysis ===");
+
       clonedScene.traverse((child) => {
         if (child.isMesh) {
           const meshName = child.name.toLowerCase();
 
-          // Apply materials based on the mesh names we discovered
-          if (meshName === "base") {
-            // Metal material for base (bottom)
+          // Debug: Log UV coordinates for ALL meshes
+          if (child.geometry.attributes.uv) {
+            console.log(
+              `✅ ${meshName} HAS UV coordinates (${child.geometry.attributes.uv.count} points)`
+            );
+          } else {
+            console.log(`❌ ${meshName} is MISSING UV coordinates!`);
+          }
+
+          // Apply materials based on the mesh names
+          if (meshName === "body") {
+            // Configure texture if it exists AND we have UV coordinates
+            let bodyTexture = null;
+            if (texture && child.geometry.attributes.uv) {
+              bodyTexture = texture.clone();
+              bodyTexture.wrapS = THREE.RepeatWrapping;
+              bodyTexture.wrapT = THREE.RepeatWrapping;
+
+              // Apply controls from sliders
+              const repeatX = textureControls?.flipX
+                ? -textureControls.repeatX
+                : textureControls?.repeatX || 1;
+              const repeatY = textureControls?.flipY
+                ? -textureControls.repeatY
+                : textureControls?.repeatY || 1;
+
+              bodyTexture.repeat.set(repeatX, repeatY);
+              bodyTexture.offset.set(
+                textureControls?.offsetX || 0,
+                textureControls?.offsetY || 0
+              );
+
+              console.log("✅ Applied texture to body with controls:", {
+                repeat: [repeatX, repeatY],
+                offset: [
+                  textureControls?.offsetX || 0,
+                  textureControls?.offsetY || 0,
+                ],
+                size: `${texture.image?.width}x${texture.image?.height}`,
+              });
+            } else if (texture && !child.geometry.attributes.uv) {
+              console.warn(
+                "⚠️ Cannot apply texture to body: missing UV coordinates!"
+              );
+            }
+
+            // Body gets the soda label texture + optional user color tint
+            child.material = new THREE.MeshStandardMaterial({
+              color: textureControls?.useColorTint ? color : "#ffffff", // White = no tint
+              roughness: material.roughness,
+              metalness: material.metalness,
+              map: bodyTexture, // Will be null if no UV coordinates
+            });
+          } else if (meshName === "base" || meshName === "uppiece") {
+            // Top and bottom stay metallic (no texture)
             child.material = new THREE.MeshStandardMaterial({
               color: "#dcdcdc", // Silver
               roughness: 0.3,
               metalness: 0.9,
-              map: texture,
-            });
-          } else if (meshName === "uppiece") {
-            // Metal material for uppiece (top)
-            child.material = new THREE.MeshStandardMaterial({
-              color: "#cdcdcd", // Silver
-              roughness: 0.3,
-              metalness: 0.9,
-              map: texture,
-            });
-          } else if (meshName === "upcontorn") {
-            child.material = new THREE.MeshStandardMaterial({
-              color: "#cdcdcd", // Silver
-              roughness: 0.3,
-              metalness: 0.9,
-              map: texture,
-            });
-          } else if (meshName === "ringball") {
-            child.material = new THREE.MeshStandardMaterial({
-              color: "#cdcdcd", // Silver
-              roughness: 0.3,
-              metalness: 0.9,
-              map: texture,
-            });
-          } else if (meshName === "ringpart1") {
-            child.material = new THREE.MeshStandardMaterial({
-              color: "#cdcdcd", // Silver
-              roughness: 0.3,
-              metalness: 0.9,
-              map: texture,
             });
           } else {
-            // Matte material for body, upcontorn, ringball, ringpart1
+            // Other parts stay metallic
             child.material = new THREE.MeshStandardMaterial({
-              color: color,
-              roughness: material.roughness,
-              metalness: material.metalness,
-              map: texture,
+              color: "#cdcdcd", // Silver
+              roughness: 0.3,
+              metalness: 0.9,
             });
           }
-          // console.log(gltf.parser);
+
           child.castShadow = true;
           child.receiveShadow = true;
         }
       });
+
+      console.log("=== End UV Analysis ===");
     }
-  }, [clonedScene, color, material, texture]);
+  }, [clonedScene, color, material, texture, textureControls]);
 
   // Smooth rotation animation
   useFrame((state) => {
