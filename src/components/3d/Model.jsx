@@ -27,6 +27,14 @@ export default function Model({ color, material, textureUrl }) {
   let gltf = null;
   try {
     gltf = useGLTF("/sodacan.gltf");
+    // Check if there are any images in the raw JSON that we missed
+    console.log("Raw JSON keys:", Object.keys(gltf.parser.json));
+    console.log("Any images?", gltf.parser.json.images);
+    console.log("Any textures?", gltf.parser.json.textures);
+
+    // Check the buffer more thoroughly - it might contain image data
+    const buffer = gltf.parser.json.buffers[0];
+    console.log("Buffer starts with:", buffer.uri.substring(0, 100));
   } catch (error) {
     console.warn("Failed to load GLTF model:", error);
     setModelError(true);
@@ -95,6 +103,27 @@ export default function Model({ color, material, textureUrl }) {
               metalness: 0.9,
               map: texture,
             });
+          } else if (meshName === "upcontorn") {
+            child.material = new THREE.MeshStandardMaterial({
+              color: "#cdcdcd", // Silver
+              roughness: 0.3,
+              metalness: 0.9,
+              map: texture,
+            });
+          } else if (meshName === "ringball") {
+            child.material = new THREE.MeshStandardMaterial({
+              color: "#cdcdcd", // Silver
+              roughness: 0.3,
+              metalness: 0.9,
+              map: texture,
+            });
+          } else if (meshName === "ringpart1") {
+            child.material = new THREE.MeshStandardMaterial({
+              color: "#cdcdcd", // Silver
+              roughness: 0.3,
+              metalness: 0.9,
+              map: texture,
+            });
           } else {
             // Matte material for body, upcontorn, ringball, ringpart1
             child.material = new THREE.MeshStandardMaterial({
@@ -104,7 +133,7 @@ export default function Model({ color, material, textureUrl }) {
               map: texture,
             });
           }
-
+          // console.log(gltf.parser);
           child.castShadow = true;
           child.receiveShadow = true;
         }
