@@ -4,7 +4,6 @@ import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
 
 import { useOptionalTexture } from "./../../hooks/useOptionalTexture";
-
 import MovementAnimation from "./MovementAnimation";
 
 // Fallback component if model fails to load
@@ -29,34 +28,52 @@ export default function Model({
 }) {
   const groupRef = useRef();
   const [modelError, setModelError] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [boundingBox, setBoundingBox] = useState(null);
 
-  // Always call hooks in the same order - load GLTF
-  let gltf = null;
-  useEffect(() => {
-    try {
-      gltf = useGLTF("/sodacanV2.glb");
-    } catch (error) {
-      console.warn("Failed to load GLTF model:", error);
-      setModelError(true);
-    }
-  }, []);
+  // Load the GLB model
+  const gltf = useGLTF("/sodacanV2.glb");
 
-  // Use our custom hook that safely handles optional textures
-  const { texture, isLoading } = useOptionalTexture(textureUrl);
+  // Load optional texture
+  const { texture, isLoading: textureLoading } = useOptionalTexture(textureUrl);
+
+  // Handle loading timeout
+  useEffect(() => {
+    if (gltf?.scene) {
+      setIsLoading(false);
+      setModelError(false);
+      return;
+    }
+
+    const timeout = setTimeout(() => {
+      setModelError(true);
+      setIsLoading(false);
+    }, 10000);
+
+    return () => clearTimeout(timeout);
+  }, [gltf?.scene]);
+
+  // Show loading fallback during initial load
+  if (isLoading && !gltf?.scene) {
+    return (
+      <ModelFallback
+        color="#888888"
+        material={{ roughness: 0.5, metalness: 0.1 }}
+      />
+    );
+  }
 
   // If model failed to load, show fallback
   if (modelError || !gltf?.scene) {
-    console.log("Using fallback model - GLTF failed to load");
     return <ModelFallback color={color} material={material} />;
   }
 
   // Clone the scene to avoid modifying the original
   const clonedScene = gltf.scene.clone();
 
-  // Calculate bounding box for auto-centering
+  // Calculate bounding box for auto-centering (only once)
   useEffect(() => {
-    if (clonedScene && groupRef.current) {
+    if (clonedScene && groupRef.current && !boundingBox) {
       const timer = setTimeout(() => {
         const box = new THREE.Box3().setFromObject(groupRef.current);
         const center = box.getCenter(new THREE.Vector3());
@@ -70,36 +87,28 @@ export default function Model({
 
       return () => clearTimeout(timer);
     }
-  }, []); // Empty dependency array - only calculate once!
+  }, [clonedScene, boundingBox]);
 
-  // Apply different materials to different parts
+  // Apply materials to different parts
   useEffect(() => {
     if (clonedScene) {
-      console.log("=== UV Coordinate Analysis ===");
-
       clonedScene.traverse((child) => {
         if (child.isMesh) {
           const meshName = child.name.toLowerCase();
 
-          // Debug: Log UV coordinates for ALL meshes
-          if (child.geometry.attributes.uv) {
-            console.log(
-              `✅ ${meshName} HAS UV coordinates (${child.geometry.attributes.uv.count} points)`
-            );
-          } else {
-            console.log(`❌ ${meshName} is MISSING UV coordinates!`);
-          }
-
-          // Apply materials based on the mesh names
-          if (meshName === "body") {
-            // Configure texture if it exists AND we have UV coordinates
+          if (meshName === "cylinder004_1") {
+            // Main body - apply texture and user-selected material
             let bodyTexture = null;
             if (texture && child.geometry.attributes.uv) {
               bodyTexture = texture.clone();
               bodyTexture.wrapS = THREE.RepeatWrapping;
               bodyTexture.wrapT = THREE.RepeatWrapping;
 
-              // Apply controls from sliders
+              // Try different rotation - 90 degrees counterclockwise
+              bodyTexture.center.set(0.5, 0.5); // Set rotation center
+              bodyTexture.rotation = 0; // -90 degrees
+
+              // Apply user controls normally
               const repeatX = textureControls?.flipX
                 ? -textureControls.repeatX
                 : textureControls?.repeatX || 1;
@@ -113,38 +122,34 @@ export default function Model({
                 textureControls?.offsetY || 0
               );
 
-              console.log("✅ Applied texture to body with controls:", {
-                repeat: [repeatX, repeatY],
-                offset: [
-                  textureControls?.offsetX || 0,
-                  textureControls?.offsetY || 0,
-                ],
-                size: `${texture.image?.width}x${texture.image?.height}`,
-              });
-            } else if (texture && !child.geometry.attributes.uv) {
-              console.warn(
-                "⚠️ Cannot apply texture to body: missing UV coordinates!"
-              );
+              // Disable automatic flipping
+              bodyTexture.flipY = false;
             }
 
-            // Body gets the soda label texture + optional user color tint
             child.material = new THREE.MeshStandardMaterial({
-              color: textureControls?.useColorTint ? color : "#ffffff", // White = no tint
-              roughness: material.roughness,
-              metalness: material.metalness,
-              map: bodyTexture, // Will be null if no UV coordinates
+              color: textureControls?.useColorTint ? color : "#ffffff",
+              roughness: 0.2,
+              metalness: 0.1,
+              map: bodyTexture,
             });
-          } else if (meshName === "base" || meshName === "uppiece") {
-            // Top and bottom stay metallic (no texture)
+          } else if (meshName === "cylinder004") {
+            // Glossy material
             child.material = new THREE.MeshStandardMaterial({
-              color: "#dcdcdc", // Silver
+              color: "#ffffff",
+              roughness: 0.5,
+              metalness: 1.6,
+            });
+          } else if (meshName === "opener") {
+            // Metallic material
+            child.material = new THREE.MeshStandardMaterial({
+              color: "#dcdcdc",
               roughness: 0.3,
               metalness: 0.9,
             });
           } else {
-            // Other parts stay metallic
+            // Default metallic for any other parts
             child.material = new THREE.MeshStandardMaterial({
-              color: "#cdcdcd", // Silver
+              color: "#cdcdcd",
               roughness: 0.3,
               metalness: 0.9,
             });
@@ -154,40 +159,33 @@ export default function Model({
           child.receiveShadow = true;
         }
       });
-
-      console.log("=== End UV Analysis ===");
     }
   }, [clonedScene, color, material, texture, textureControls]);
 
   return (
-    <MovementAnimation rotationSpeed={0.5} floatAmplitude={0.4}>
-      <group ref={groupRef}>
-        {/* Auto-center the model based on bounding box */}
-        <group
-          position={
-            boundingBox
-              ? [
-                  -boundingBox.center.x,
-                  -boundingBox.center.y,
-                  -boundingBox.center.z,
-                ]
-              : [0, 0, 0]
-          }
-        >
+    <group ref={groupRef}>
+      <group
+        position={
+          boundingBox
+            ? [
+                -boundingBox.center.x,
+                -boundingBox.center.y,
+                -boundingBox.center.z,
+              ]
+            : [0, 0, 0]
+        }
+      >
+        <MovementAnimation rotationSpeed={0.5} floatAmplitude={0.4}>
           <primitive
             object={clonedScene}
             position={[0, 0, 0]}
-            scale={[0.5, 0.5, 0.5]}
+            scale={[100, 100, 100]}
           />
-        </group>
+        </MovementAnimation>
       </group>
-    </MovementAnimation>
+    </group>
   );
 }
 
-// Preload the model
-try {
-  useGLTF.preload("/sodacan.gltf");
-} catch (error) {
-  console.warn("Could not preload GLTF model");
-}
+// Preload the GLB model
+useGLTF.preload("/sodacanV2.glb");
