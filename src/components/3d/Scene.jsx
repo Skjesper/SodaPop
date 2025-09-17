@@ -2,6 +2,7 @@ import { OrbitControls } from "@react-three/drei";
 import { Suspense } from "react";
 import Model from "./Model";
 
+
 // Simple fallback component
 function ModelFallback() {
   return (

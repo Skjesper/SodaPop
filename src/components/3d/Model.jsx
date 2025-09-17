@@ -2,7 +2,11 @@ import { useRef, useEffect, useState } from "react";
 import { useFrame } from "@react-three/fiber";
 import { useGLTF } from "@react-three/drei";
 import * as THREE from "three";
+
 import { useOptionalTexture } from "./../../hooks/useOptionalTexture";
+
+import MovementAnimation from "./MovementAnimation";
+
 
 // Fallback component if model fails to load
 function ModelFallback({ color, material }) {
@@ -154,14 +158,9 @@ export default function Model({
     }
   }, [clonedScene, color, material, texture, textureControls]);
 
-  // Smooth rotation animation
-  useFrame((state) => {
-    if (groupRef.current) {
-      groupRef.current.rotation.y = state.clock.elapsedTime * 0.5;
-    }
-  });
 
   return (
+    <MovementAnimation rotationSpeed={0.5} floatAmplitude={0.4}>
     <group ref={groupRef}>
       {/* Auto-center the model based on bounding box */}
       <group
@@ -182,6 +181,7 @@ export default function Model({
         />
       </group>
     </group>
+    </MovementAnimation>
   );
 }
 
