@@ -41,6 +41,17 @@ export default function ConfiguratorPanel({ config, setConfig }) {
     }
   };
 
+  // New texture control handlers
+  const handleTextureControlChange = (property, value) => {
+    setConfig((prev) => ({
+      ...prev,
+      textureControls: {
+        ...prev.textureControls,
+        [property]: value,
+      },
+    }));
+  };
+
   const handleReset = () => {
     setConfig(DEFAULT_CONFIG);
   };
@@ -151,6 +162,128 @@ export default function ConfiguratorPanel({ config, setConfig }) {
             </button>
           )}
       </div>
+
+      {/* NEW: Texture Controls */}
+      {config.textureUrl && (
+        <div className={styles.configSection}>
+          <h3 className={styles.sectionTitle}>Texture Controls</h3>
+
+          {/* Repeat X */}
+          <div className={styles.sliderContainer}>
+            <label>Repeat X: {config.textureControls.repeatX.toFixed(2)}</label>
+            <input
+              type="range"
+              min="0.1"
+              max="5"
+              step="0.1"
+              value={config.textureControls.repeatX}
+              onChange={(e) =>
+                handleTextureControlChange(
+                  "repeatX",
+                  parseFloat(e.target.value)
+                )
+              }
+              className={styles.slider}
+            />
+          </div>
+
+          {/* Repeat Y */}
+          <div className={styles.sliderContainer}>
+            <label>Repeat Y: {config.textureControls.repeatY.toFixed(2)}</label>
+            <input
+              type="range"
+              min="0.1"
+              max="5"
+              step="0.1"
+              value={config.textureControls.repeatY}
+              onChange={(e) =>
+                handleTextureControlChange(
+                  "repeatY",
+                  parseFloat(e.target.value)
+                )
+              }
+              className={styles.slider}
+            />
+          </div>
+
+          {/* Offset X */}
+          <div className={styles.sliderContainer}>
+            <label>Offset X: {config.textureControls.offsetX.toFixed(2)}</label>
+            <input
+              type="range"
+              min="-1"
+              max="1"
+              step="0.05"
+              value={config.textureControls.offsetX}
+              onChange={(e) =>
+                handleTextureControlChange(
+                  "offsetX",
+                  parseFloat(e.target.value)
+                )
+              }
+              className={styles.slider}
+            />
+          </div>
+
+          {/* Offset Y */}
+          <div className={styles.sliderContainer}>
+            <label>Offset Y: {config.textureControls.offsetY.toFixed(2)}</label>
+            <input
+              type="range"
+              min="-1"
+              max="1"
+              step="0.05"
+              value={config.textureControls.offsetY}
+              onChange={(e) =>
+                handleTextureControlChange(
+                  "offsetY",
+                  parseFloat(e.target.value)
+                )
+              }
+              className={styles.slider}
+            />
+          </div>
+
+          <div className={styles.toggleContainer}>
+            <label>
+              <input
+                type="checkbox"
+                checked={config.textureControls.useColorTint}
+                onChange={(e) =>
+                  handleTextureControlChange("useColorTint", e.target.checked)
+                }
+              />
+              Apply Color Tint to Texture
+            </label>
+          </div>
+
+          <div className={styles.toggleContainer}>
+            <label>
+              <input
+                type="checkbox"
+                checked={config.textureControls.flipX}
+                onChange={(e) =>
+                  handleTextureControlChange("flipX", e.target.checked)
+                }
+              />
+              Flip Horizontally
+            </label>
+          </div>
+
+          <div className={styles.toggleContainer}>
+            <label>
+              <input
+                type="checkbox"
+                checked={config.textureControls.flipY}
+                onChange={(e) =>
+                  handleTextureControlChange("flipY", e.target.checked)
+                }
+              />
+              Flip Vertically
+            </label>
+          </div>
+        </div>
+      )}
 
       {/* Action Buttons */}
       <div className={styles.configSection}>

@@ -9,7 +9,7 @@ export const CONFIG_OPTIONS = {
     blue: "#4444ff",
     green: "#44ff44",
     black: "#222222",
-    white: "#ffffff",
+    white: "#ffffff01",
     orange: "#ff8844",
     purple: "#8844ff",
     yellow: "#ffff44",
@@ -37,10 +37,10 @@ export const CONFIG_OPTIONS = {
     },
   },
   textures: {
-    leather: "/assets/textures/leather.jpg",
-    fabric: "/assets/textures/fabric.jpg",
-    metal: "/assets/textures/metal.jpg",
-    wood: "/assets/textures/wood.jpg",
+    blueberryMint: "/assets/textures/Label_BlueberryMint.png",
+    orangeYuzu: "/assets/textures/Label_OrangeYuzu.png",
+    limeExplosion: "/assets/textures/Label_LimeExplosion.png",
+    strawberryPunch: "/assets/textures/Label_StrawberryPunch-Sugarfree.png",
   },
 };
 
@@ -49,4 +49,13 @@ export const DEFAULT_CONFIG = {
   color: CONFIG_OPTIONS.colors.red,
   material: CONFIG_OPTIONS.materials.matte,
   textureUrl: null,
+  textureControls: {
+    repeatX: 1,
+    repeatY: 1,
+    offsetX: 0,
+    offsetY: 0,
+    flipX: false,
+    flipY: false,
+    useColorTint: false,
+  },
 };
