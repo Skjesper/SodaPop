@@ -1,6 +1,6 @@
 export const CONFIG_OPTIONS = {
   models: {
-    base: "/sodacan.gltf",
+    base: "/sodacanV2.glb",
     variant1: "/assets/models/product-variant-1.gltf",
     variant2: "/assets/models/product-variant-2.gltf",
   },
