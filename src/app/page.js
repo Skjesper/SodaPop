@@ -10,8 +10,7 @@ export default function Home() {
 				alignItems: 'center',
 				height: '100vh',
 				background: 'linear-gradient(135deg, #1f2937 0%, #111827 100%)',
-				color: 'white',
-				fontFamily: 'system-ui, sans-serif'
+				color: 'white'
 			}}
 		>
 			<h1 style={{ fontSize: '2rem', marginBottom: '2rem' }}>

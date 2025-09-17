@@ -9,6 +9,8 @@
 	--Yuzu-Zero: #ffbd37;
 	--Blueberry-Zero: #056db2;
 	--Lime-Zero: #40790e;
+
+	--font-dm-sans: 'DM Sans', sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -27,9 +29,10 @@ body {
 }
 
 * {
-	box-sizing: border-box;
-	padding: 0;
+	font-family: var(--font-dm-sans);
 	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
 }
 
 @media (prefers-color-scheme: dark) {

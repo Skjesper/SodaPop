@@ -17,11 +17,8 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
-			<head>
-				{/* Här kan du också sätta titel eller meta-data, om du vill */}
-			</head>
+			<head></head>
 			<body className={dmSans.className}>{children}</body>{' '}
-			{/* Lägg till klassen här */}
 		</html>
 	)
 }
