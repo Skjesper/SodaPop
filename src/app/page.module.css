@@ -1,25 +1,17 @@
-/* page.module.css */
-
-/* Gör föräldern till en flex-container */
 .container {
 	display: flex;
-	justify-content: space-between; /* Valfritt: om du vill ha lite mellanrum mellan divarna */
+	justify-content: space-between;
 
 	height: 100vh;
 }
 
-/* LeftContent - 60% bredd */
 .leftContent {
 	width: 60%;
 	background-color: grey;
-
-	padding: 20px; /* Valfritt: lägg till padding om du vill ha lite utrymme inuti */
 }
 
-/* RightContent - 40% bredd */
 .rightContent {
 	width: 40%;
 	height: auto;
 	background-color: white;
-	padding: 20px; /* Valfritt: lägg till padding om du vill ha lite utrymme inuti */
 }

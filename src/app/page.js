@@ -9,7 +9,14 @@ export default function Home() {
 					{/* Här kan du lägga till innehåll för leftContent */}
 				</div>
 				<div className={styles.rightContent}>
-					{/* Här kan du lägga till innehåll för rightContent */}
+					<h1 className={styles.title}>Rubrik</h1>
+					<h3 className={styles.flavourTitle}>Choose flavour</h3>
+					<h3 className={styles.sugarFreeTitel}>Suger Free</h3>
+					<button>Add to cart</button>
+					<div className={styles.infoText}>
+						This is some information about some good soda
+					</div>
+					<button className={styles.dropDown}>Ingredients</button>
 				</div>
 			</section>
 		</div>
