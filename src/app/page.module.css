@@ -5,10 +5,15 @@
 }
 
 .leftContent {
-	flex: 1;
-	height: 100%;
-	position: relative;
-	overflow: hidden; /* Viktig - begränsar Configurator till detta område */
+	width: 60%;
+	flex-shrink: 0;
+	/* resten samma */
+}
+
+.rightContent {
+	width: 40%;
+	flex-shrink: 0;
+	/* resten samma */
 }
 
 .configuratorWrapper {
@@ -16,9 +21,4 @@
 	height: 100%;
 	position: relative; /* Skapar ny stacking context */
 	/* Detta gör att Configurator's absoluta positioning relaterar till denna wrapper */
-}
-
-.rightContent {
-	flex: 1;
-	overflow-y: auto;
 }
