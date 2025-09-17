@@ -6,6 +6,7 @@ import Scene from "./3d/Scene";
 import ConfiguratorPanel from "./ui/ConfiguratorPanel";
 import LoadingFallback from "./3d/LoadingFallback";
 import IngredientsDropdown from "./ui/IngredientsDropdown";
+import AddToCartButton from "./UI/AddToCartButton";
 import { DEFAULT_CONFIG } from "../config/modelConfig";
 import styles from "../styles/configurator.module.css";
 
@@ -32,6 +33,8 @@ export default function Configurator() {
       </Canvas>
 
       <ConfiguratorPanel config={config} setConfig={setConfig} />
+
+      <AddToCartButton config={config} /> 
 
       <IngredientsDropdown />
 
