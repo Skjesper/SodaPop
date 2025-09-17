@@ -9,6 +9,28 @@ import styles from './page.module.css'
 export default function Home() {
 	const [config, setConfig] = useState(DEFAULT_CONFIG)
 
+	const getFlavorName = () => {
+		if (!config.textureUrl) {
+			return 'Choose Your Flavor'
+		}
+
+		if (config.textureUrl.includes('BlueberryMint')) {
+			return 'Blueberry Mint'
+		}
+		if (config.textureUrl.includes('OrangeYuzu')) {
+			return 'Orange Yuzu'
+		}
+		if (config.textureUrl.includes('LimeExplosion')) {
+			return 'Lime Explosion'
+		}
+		if (config.textureUrl.includes('StrawberryPunch')) {
+			const isZero = config.textureUrl.includes('Sugarfree')
+			return isZero ? 'Strawberry Punch Sugar Free' : 'Strawberry Punch'
+		}
+
+		return 'Custom Flavor'
+	}
+
 	return (
 		<div>
 			<section className={styles.container}>
@@ -19,7 +41,7 @@ export default function Home() {
 					</div>
 				</div>
 				<div className={styles.rightContent}>
-					<h1 className={styles.title}>Rubrik</h1>
+					<h1 className={styles.title}>{getFlavorName()}</h1>
 					<h3 className={styles.flavourTitle}>Choose flavour</h3>
 
 					<PresetTextures config={config} setConfig={setConfig} />
