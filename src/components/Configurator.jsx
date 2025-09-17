@@ -5,6 +5,7 @@ import { Canvas } from "@react-three/fiber";
 import Scene from "./3d/Scene";
 import ConfiguratorPanel from "./ui/ConfiguratorPanel";
 import LoadingFallback from "./3d/LoadingFallback";
+import IngredientsDropdown from "./ui/IngredientsDropdown";
 import { DEFAULT_CONFIG } from "../config/modelConfig";
 import styles from "../styles/configurator.module.css";
 
@@ -31,6 +32,8 @@ export default function Configurator() {
       </Canvas>
 
       <ConfiguratorPanel config={config} setConfig={setConfig} />
+
+      <IngredientsDropdown />
 
       <div className={styles.appHeader}>
         <h1 className={styles.appTitle}>3D Model Configurator</h1>
