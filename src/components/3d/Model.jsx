@@ -7,7 +7,6 @@ import { useOptionalTexture } from "./../../hooks/useOptionalTexture";
 
 import MovementAnimation from "./MovementAnimation";
 
-
 // Fallback component if model fails to load
 function ModelFallback({ color, material }) {
   return (
@@ -34,12 +33,14 @@ export default function Model({
 
   // Always call hooks in the same order - load GLTF
   let gltf = null;
-  try {
-    gltf = useGLTF("/sodacan.gltf");
-  } catch (error) {
-    console.warn("Failed to load GLTF model:", error);
-    setModelError(true);
-  }
+  useEffect(() => {
+    try {
+      gltf = useGLTF("/sodacanV2.glb");
+    } catch (error) {
+      console.warn("Failed to load GLTF model:", error);
+      setModelError(true);
+    }
+  }, []);
 
   // Use our custom hook that safely handles optional textures
   const { texture, isLoading } = useOptionalTexture(textureUrl);
@@ -158,29 +159,28 @@ export default function Model({
     }
   }, [clonedScene, color, material, texture, textureControls]);
 
-
   return (
     <MovementAnimation rotationSpeed={0.5} floatAmplitude={0.4}>
-    <group ref={groupRef}>
-      {/* Auto-center the model based on bounding box */}
-      <group
-        position={
-          boundingBox
-            ? [
-                -boundingBox.center.x,
-                -boundingBox.center.y,
-                -boundingBox.center.z,
-              ]
-            : [0, 0, 0]
-        }
-      >
-        <primitive
-          object={clonedScene}
-          position={[0, 0, 0]}
-          scale={[0.5, 0.5, 0.5]}
-        />
+      <group ref={groupRef}>
+        {/* Auto-center the model based on bounding box */}
+        <group
+          position={
+            boundingBox
+              ? [
+                  -boundingBox.center.x,
+                  -boundingBox.center.y,
+                  -boundingBox.center.z,
+                ]
+              : [0, 0, 0]
+          }
+        >
+          <primitive
+            object={clonedScene}
+            position={[0, 0, 0]}
+            scale={[0.5, 0.5, 0.5]}
+          />
+        </group>
       </group>
-    </group>
     </MovementAnimation>
   );
 }
