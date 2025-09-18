@@ -53,6 +53,18 @@ export default function Home() {
 		})
 	}
 
+	// Skapa inline style för titeln baserat på smakens färg
+	const getTitleStyle = () => {
+		const currentFlavor = getCurrentFlavor()
+		if (!currentFlavor?.colors) {
+			return {} // Fallback till CSS-färg
+		}
+
+		return {
+			color: currentFlavor.colors.primary
+		}
+	}
+
 	return (
 		<div>
 			<section className={styles.container}>
@@ -63,12 +75,14 @@ export default function Home() {
 				</div>
 				<div className={styles.rightContent}>
 					<div className={styles.rightContentWrapper}>
-						<h1 className={styles.title}>{getFlavorName()}</h1>
+						<h1 className={styles.title} style={getTitleStyle()}>
+							{getFlavorName()}
+						</h1>
 						<h3 className={styles.flavourTitle}>Choose flavour</h3>
 
 						<PresetTextures config={config} setConfig={setConfig} />
 
-						<h3 className={styles.sugarFreeTitel}>Sugar Free</h3>
+						<h3 className={styles.sugarFreeTitle}>Sugar Free</h3>
 
 						<SugarFreeTextures config={config} setConfig={setConfig} />
 

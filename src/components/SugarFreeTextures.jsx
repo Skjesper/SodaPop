@@ -70,6 +70,8 @@ const SugarFreeTextures = ({ config, setConfig }) => {
 				flavorConfig={whiteButtonConfig}
 				isSelected={isSugarFreeSelected()}
 				onClick={handleSugarFreeToggle}
+				showCheckmark={true}
+				alwaysBorder={true}
 			/>
 		</div>
 	)

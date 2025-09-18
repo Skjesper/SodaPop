@@ -1,18 +1,19 @@
-import styles from '../../styles/flavourPickerButton.module.css'
+import styles from '../../styles/FlavourPickerButton.module.css'
 
 export function FlavourPickerButton({
 	flavorKey,
 	flavorConfig,
 	isSelected,
-	onClick
+	onClick,
+	showCheckmark = false,
+	alwaysBorder = false
 }) {
-	// Sätt CSS custom properties för dynamiska färger
 	const buttonStyle = flavorConfig?.colors
 		? {
 				'--primary-color': flavorConfig.colors.primary,
 				'--secondary-color': flavorConfig.colors.secondary,
 				'--hover-color': flavorConfig.colors.hover,
-				'--shadow-color': flavorConfig.colors.primary + '40' // 40 = 25% opacity
+				'--shadow-color': flavorConfig.colors.primary + '40'
 		  }
 		: {}
 
@@ -22,11 +23,14 @@ export function FlavourPickerButton({
                 ${styles.flavourPickerButton} 
                 ${flavorConfig?.colors ? styles.dynamic : styles.default}
                 ${isSelected ? styles.selected : ''}
+                ${alwaysBorder ? styles.alwaysBorder : ''}
             `}
 			style={buttonStyle}
 			onClick={() => onClick(flavorKey)}
 		>
-			{/* Du kan lägga till en ikon eller text här om du vill */}
+			{showCheckmark && isSelected && (
+				<span className={styles.checkmark}>✓</span>
+			)}
 		</button>
 	)
 }

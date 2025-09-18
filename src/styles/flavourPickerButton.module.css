@@ -2,13 +2,16 @@
 	width: 2.5rem;
 	height: 2.5rem;
 	aspect-ratio: 1/1;
-	border: 2px solid transparent; /* Fyrkantig med rundade hörn */
+	border: 2px solid transparent; /* Explicit border */
+	border-radius: 0; /* Explicit ingen rundning */
 	cursor: pointer;
 	transition: all 0.3s ease;
 	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
 
-/* Default variant (fallback) */
 .default {
 	background-color: #007bff;
 }
@@ -18,14 +21,12 @@
 	box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
 }
 
-/* Dynamic variant som använder CSS custom properties */
 .dynamic {
 	background: linear-gradient(
 		135deg,
 		var(--primary-color),
 		var(--secondary-color)
 	);
-	box-shadow: 0 2px 6px var(--shadow-color);
 }
 
 .dynamic:hover {
@@ -35,21 +36,28 @@
 		var(--secondary-color),
 		var(--hover-color)
 	);
-	box-shadow: 0 4px 12px var(--shadow-color);
 }
 
-/* Selected state - svart border när vald */
 .selected {
 	border: 2px solid #000;
-	transform: none; /* Ta bort scale-effekt */
 }
 
 .selected:hover {
-	transform: scale(1.05); /* Mindre scale på hover när selected */
+	transform: scale(1.05);
 }
 
-/* Focus state för accessibility */
-.flavourPickerButton:focus {
-	outline: 2px solid #000;
-	outline-offset: 2px;
+/* Alltid visa border för vita knappar */
+.alwaysBorder {
+	border: 2px solid #000000;
+}
+
+.alwaysBorder.selected {
+	border: 2px solid #000;
+}
+
+/* Checkmark styling */
+.checkmark {
+	font-size: 1.2rem;
+	font-weight: bold;
+	color: #000;
 }

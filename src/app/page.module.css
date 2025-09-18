@@ -16,7 +16,9 @@
 	justify-content: center;
 	align-items: flex-start;
 	display: flex;
-	margin-top: 5rem;
+	padding-top: 5rem;
+	background-color: white;
+
 	/* resten samma */
 }
 
@@ -25,6 +27,7 @@
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
+	gap: 1.5rem;
 }
 
 .configuratorWrapper {
@@ -36,4 +39,18 @@
 
 .title {
 	font-family: var(--font-dyna-puff);
+}
+
+.flavourTitle {
+	font-size: 1.5rem;
+	color: var(--background);
+}
+
+.sugarFreeTitle {
+	font-size: 1.5rem;
+	color: var(--background);
+}
+
+.infoText {
+	color: var(--background);
 }
