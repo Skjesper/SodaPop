@@ -1,34 +1,67 @@
 'use client'
 
 import React, { useState } from 'react'
+import AddToCartButton from '../components/ui/AddToCartButton'
 import PresetTextures from '../components/PresetTextures'
 import Configurator from '../components/Configurator'
 import { DEFAULT_CONFIG } from '../config/modelConfig'
+import { FLAVOR_CONFIG } from '../config/flavorConfig'
 import styles from './page.module.css'
 
 export default function Home() {
 	const [config, setConfig] = useState(DEFAULT_CONFIG)
 
+	// Hitta aktuell smak baserat på textureUrl
+	const getCurrentFlavor = () => {
+		if (!config.textureUrl) return null
+
+		// DEBUG: Se vad som faktiskt finns i textureUrl
+		console.log('Current textureUrl:', config.textureUrl)
+		console.log('Available flavor keys:', Object.keys(FLAVOR_CONFIG))
+
+		const flavorKey = Object.keys(FLAVOR_CONFIG).find((key) =>
+			config.textureUrl.toLowerCase().includes(key.toLowerCase())
+		)
+
+		console.log('Found flavor key:', flavorKey)
+
+		return flavorKey ? FLAVOR_CONFIG[flavorKey] : null
+	}
+
 	const getFlavorName = () => {
-		if (!config.textureUrl) {
+		const currentFlavor = getCurrentFlavor()
+
+		if (!currentFlavor) {
 			return 'Choose Your Flavor'
 		}
 
-		if (config.textureUrl.includes('BlueberryMint')) {
-			return 'Blueberry Mint'
-		}
-		if (config.textureUrl.includes('OrangeYuzu')) {
-			return 'Orange Yuzu'
-		}
-		if (config.textureUrl.includes('LimeExplosion')) {
-			return 'Lime Explosion'
-		}
-		if (config.textureUrl.includes('StrawberryPunch')) {
-			const isZero = config.textureUrl.includes('Sugarfree')
-			return isZero ? 'Strawberry Punch Sugar Free' : 'Strawberry Punch'
+		// Hantera special case för Sugar Free
+		if (
+			config.textureUrl.includes('StrawberryPunch') &&
+			config.textureUrl.includes('Sugarfree')
+		) {
+			return 'Strawberry Punch Sugar Free'
 		}
 
-		return 'Custom Flavor'
+		return currentFlavor.name
+	}
+
+	const getButtonTexts = () => {
+		const flavorName = getFlavorName()
+
+		return {
+			default: `Add to cart`,
+			clicked: `${flavorName} added!`
+		}
+	}
+
+	const handleAddToCart = (cartConfig) => {
+		const currentFlavor = getCurrentFlavor()
+		console.log('Adding to cart:', {
+			flavor: getFlavorName(),
+			flavorConfig: currentFlavor,
+			config: cartConfig
+		})
 	}
 
 	return (
@@ -36,7 +69,6 @@ export default function Home() {
 			<section className={styles.container}>
 				<div className={styles.leftContent}>
 					<div className={styles.configuratorWrapper}>
-						{/* Skicka config och setConfig som props till Configurator */}
 						<Configurator config={config} setConfig={setConfig} />
 					</div>
 				</div>
@@ -47,7 +79,14 @@ export default function Home() {
 					<PresetTextures config={config} setConfig={setConfig} />
 
 					<h3 className={styles.sugarFreeTitel}>Sugar Free</h3>
-					<button>Add to cart</button>
+
+					<AddToCartButton
+						config={config}
+						flavorColors={getCurrentFlavor()?.colors}
+						texts={getButtonTexts()}
+						onAddToCart={handleAddToCart}
+					/>
+
 					<div className={styles.infoText}>
 						This is some information about some good soda
 					</div>
