@@ -1,13 +1,12 @@
 'use client'
 
-import { useState, Suspense } from "react";
+import { useState, Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import Scene from './3d/Scene'
 import LoadingFallback from './3d/LoadingFallback'
 import { CONFIG_OPTIONS } from '../config/modelConfig'
 import styles from '../styles/configurator.module.css'
-import { DEFAULT_CONFIG } from "../config/modelConfig";
-
+import { DEFAULT_CONFIG } from '../config/modelConfig'
 
 export default function Configurator({ config, setConfig }) {
 	const getBackgroundForTexture = () => {
