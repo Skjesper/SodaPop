@@ -3,6 +3,7 @@
 import React, { useState } from 'react'
 import AddToCartButton from '../components/ui/AddToCartButton'
 import PresetTextures from '../components/PresetTextures'
+import SugarFreeTextures from '../components/SugarFreeTextures'
 import Configurator from '../components/Configurator'
 import { DEFAULT_CONFIG } from '../config/modelConfig'
 import { FLAVOR_CONFIG } from '../config/flavorConfig'
@@ -11,19 +12,12 @@ import styles from './page.module.css'
 export default function Home() {
 	const [config, setConfig] = useState(DEFAULT_CONFIG)
 
-	// Hitta aktuell smak baserat på textureUrl
 	const getCurrentFlavor = () => {
 		if (!config.textureUrl) return null
-
-		// DEBUG: Se vad som faktiskt finns i textureUrl
-		console.log('Current textureUrl:', config.textureUrl)
-		console.log('Available flavor keys:', Object.keys(FLAVOR_CONFIG))
 
 		const flavorKey = Object.keys(FLAVOR_CONFIG).find((key) =>
 			config.textureUrl.toLowerCase().includes(key.toLowerCase())
 		)
-
-		console.log('Found flavor key:', flavorKey)
 
 		return flavorKey ? FLAVOR_CONFIG[flavorKey] : null
 	}
@@ -35,15 +29,10 @@ export default function Home() {
 			return 'Choose Your Flavor'
 		}
 
-		// Hantera special case för Sugar Free
-		if (
-			config.textureUrl.includes('StrawberryPunch') &&
-			config.textureUrl.includes('Sugarfree')
-		) {
-			return 'Strawberry Punch Sugar Free'
-		}
+		// Kolla om det är sugar free version
+		const isSugarFree = config.textureUrl?.includes('Sugarfree')
 
-		return currentFlavor.name
+		return isSugarFree ? `${currentFlavor.name} Sugar Free` : currentFlavor.name
 	}
 
 	const getButtonTexts = () => {
@@ -80,6 +69,8 @@ export default function Home() {
 						<PresetTextures config={config} setConfig={setConfig} />
 
 						<h3 className={styles.sugarFreeTitel}>Sugar Free</h3>
+
+						<SugarFreeTextures config={config} setConfig={setConfig} />
 
 						<AddToCartButton
 							config={config}

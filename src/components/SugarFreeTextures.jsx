@@ -1,0 +1,78 @@
+'use client'
+
+import React from 'react'
+import { CONFIG_OPTIONS } from '../config/modelConfig'
+import { FLAVOR_CONFIG } from '../config/flavorConfig'
+import { FlavourPickerButton } from './ui/FlavourPickerButton'
+import styles from '../styles/configurator.module.css'
+
+const SugarFreeTextures = ({ config, setConfig }) => {
+	const handleSugarFreeToggle = () => {
+		if (!config.textureUrl) return
+
+		// Hitta nuvarande smak-nyckel
+		const currentFlavorKey = Object.keys(CONFIG_OPTIONS.textures).find(
+			(key) => config.textureUrl === CONFIG_OPTIONS.textures[key]
+		)
+
+		if (!currentFlavorKey) return
+
+		// Kolla om vi är på sugar free eller regular
+		const isSugarFree = currentFlavorKey.includes('SugarFree')
+
+		if (isSugarFree) {
+			// Byt till regular version
+			const regularKey = currentFlavorKey.replace('SugarFree', '')
+			if (CONFIG_OPTIONS.textures[regularKey]) {
+				setConfig((prev) => ({
+					...prev,
+					textureUrl: CONFIG_OPTIONS.textures[regularKey]
+				}))
+			}
+		} else {
+			// Byt till sugar free version
+			const sugarFreeKey = currentFlavorKey + 'SugarFree'
+			if (CONFIG_OPTIONS.textures[sugarFreeKey]) {
+				setConfig((prev) => ({
+					...prev,
+					textureUrl: CONFIG_OPTIONS.textures[sugarFreeKey]
+				}))
+			}
+		}
+	}
+
+	const getCurrentFlavorKey = () => {
+		if (!config.textureUrl) return null
+
+		return Object.keys(CONFIG_OPTIONS.textures).find(
+			(key) => config.textureUrl === CONFIG_OPTIONS.textures[key]
+		)
+	}
+
+	const isSugarFreeSelected = () => {
+		const currentKey = getCurrentFlavorKey()
+		return currentKey?.includes('SugarFree') || false
+	}
+
+	// Vit knapp-konfiguration
+	const whiteButtonConfig = {
+		colors: {
+			primary: '#ffffff',
+			secondary: '#f8f9fa',
+			hover: '#e9ecef'
+		}
+	}
+
+	return (
+		<div className={styles.sugarFreeSection}>
+			<FlavourPickerButton
+				flavorKey="sugarFree"
+				flavorConfig={whiteButtonConfig}
+				isSelected={isSugarFreeSelected()}
+				onClick={handleSugarFreeToggle}
+			/>
+		</div>
+	)
+}
+
+export default SugarFreeTextures

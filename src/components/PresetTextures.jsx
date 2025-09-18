@@ -22,11 +22,17 @@ const PresetTextures = ({ config, setConfig }) => {
 		)
 	}
 
+	// Filtrera bort sugar free variants - visa bara bas-smakerna
+	const getBaseTextures = () => {
+		return Object.entries(CONFIG_OPTIONS.textures).filter(
+			([key]) => !key.includes('SugarFree')
+		)
+	}
+
 	return (
 		<div className={styles.configSection}>
-			<h3 className={styles.sectionTitle}>Preset Textures</h3>
 			<div className={styles.textureButtons}>
-				{Object.entries(CONFIG_OPTIONS.textures).map(([key, texturePath]) => {
+				{getBaseTextures().map(([key, texturePath]) => {
 					const flavorConfig = FLAVOR_CONFIG[key]
 
 					return (
