@@ -13,7 +13,21 @@
 .rightContent {
 	width: 40%;
 	flex-shrink: 0;
+	justify-content: center;
+	align-items: flex-start;
+	display: flex;
+	padding-top: 5rem;
+	background-color: white;
+
 	/* resten samma */
+}
+
+.rightContentWrapper {
+	width: 80%;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	gap: 1.5rem;
 }
 
 .configuratorWrapper {
@@ -21,4 +35,22 @@
 	height: 100%;
 	position: relative; /* Skapar ny stacking context */
 	/* Detta gör att Configurator's absoluta positioning relaterar till denna wrapper */
+}
+
+.title {
+	font-family: var(--font-dyna-puff);
+}
+
+.flavourTitle {
+	font-size: 1.5rem;
+	color: var(--background);
+}
+
+.sugarFreeTitle {
+	font-size: 1.5rem;
+	color: var(--background);
+}
+
+.infoText {
+	color: var(--background);
 }

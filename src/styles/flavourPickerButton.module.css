@@ -1,0 +1,63 @@
+.flavourPickerButton {
+	width: 2.5rem;
+	height: 2.5rem;
+	aspect-ratio: 1/1;
+	border: 2px solid transparent; /* Explicit border */
+	border-radius: 0; /* Explicit ingen rundning */
+	cursor: pointer;
+	transition: all 0.3s ease;
+	position: relative;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+}
+
+.default {
+	background-color: #007bff;
+}
+
+.default:hover {
+	transform: scale(1.1);
+	box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+.dynamic {
+	background: linear-gradient(
+		135deg,
+		var(--primary-color),
+		var(--secondary-color)
+	);
+}
+
+.dynamic:hover {
+	transform: scale(1.1);
+	background: linear-gradient(
+		135deg,
+		var(--secondary-color),
+		var(--hover-color)
+	);
+}
+
+.selected {
+	border: 2px solid #000;
+}
+
+.selected:hover {
+	transform: scale(1.05);
+}
+
+/* Alltid visa border för vita knappar */
+.alwaysBorder {
+	border: 2px solid #000000;
+}
+
+.alwaysBorder.selected {
+	border: 2px solid #000;
+}
+
+/* Checkmark styling */
+.checkmark {
+	font-size: 1.2rem;
+	font-weight: bold;
+	color: #000;
+}

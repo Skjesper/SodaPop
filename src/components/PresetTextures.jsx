@@ -2,6 +2,8 @@
 
 import React from 'react'
 import { CONFIG_OPTIONS } from '../config/modelConfig'
+import { FLAVOR_CONFIG } from '../config/flavorConfig'
+import { FlavourPickerButton } from './ui/FlavourPickerButton'
 import styles from '../styles/configurator.module.css'
 
 const PresetTextures = ({ config, setConfig }) => {
@@ -12,21 +14,37 @@ const PresetTextures = ({ config, setConfig }) => {
 		}))
 	}
 
+	const getCurrentFlavorKey = () => {
+		if (!config.textureUrl) return null
+
+		return Object.keys(CONFIG_OPTIONS.textures).find(
+			(key) => config.textureUrl === CONFIG_OPTIONS.textures[key]
+		)
+	}
+
+	// Filtrera bort sugar free variants - visa bara bas-smakerna
+	const getBaseTextures = () => {
+		return Object.entries(CONFIG_OPTIONS.textures).filter(
+			([key]) => !key.includes('SugarFree')
+		)
+	}
+
 	return (
 		<div className={styles.configSection}>
-			<h3 className={styles.sectionTitle}>Preset Textures</h3>
 			<div className={styles.textureButtons}>
-				{Object.entries(CONFIG_OPTIONS.textures).map(([key, texturePath]) => (
-					<button
-						key={key}
-						onClick={() => handlePresetTextureChange(key)}
-						className={`${styles.textureButton} ${
-							config.textureUrl === texturePath ? styles.active : ''
-						}`}
-					>
-						{key.charAt(0).toUpperCase() + key.slice(1)}
-					</button>
-				))}
+				{getBaseTextures().map(([key, texturePath]) => {
+					const flavorConfig = FLAVOR_CONFIG[key]
+
+					return (
+						<FlavourPickerButton
+							key={key}
+							flavorKey={key}
+							flavorConfig={flavorConfig}
+							isSelected={getCurrentFlavorKey() === key}
+							onClick={handlePresetTextureChange}
+						/>
+					)
+				})}
 			</div>
 		</div>
 	)

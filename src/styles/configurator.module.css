@@ -161,11 +161,11 @@
 	color: #1e40af;
 }
 
-/* Texture Buttons */
+/* Texture Buttons - För flavor picker buttons */
 .textureButtons {
-	display: grid;
-	grid-template-columns: 1fr 1fr;
+	display: flex;
 	gap: 8px;
+	flex-wrap: wrap;
 }
 
 .textureButton {
@@ -186,6 +186,12 @@
 	background: #dbeafe;
 	border-color: #3b82f6;
 	color: #1e40af;
+}
+
+/* Sugar Free Section - egen styling för Sugar Free-knappen */
+.sugarFreeSection {
+	display: flex;
+	gap: 8px;
 }
 
 /* File Input */
