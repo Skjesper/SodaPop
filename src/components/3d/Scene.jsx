@@ -1,6 +1,7 @@
 import { OrbitControls } from "@react-three/drei";
 import { Suspense } from "react";
 import Model from "./Model";
+import SpinTransition from "./SpinTransition"; // ← SPIN EFFECT:
 
 
 // Simple fallback component
@@ -49,12 +50,15 @@ export default function Scene({ config }) {
 
       {/* Model with Suspense fallback */}
       <Suspense fallback={<ModelFallback />}>
+       {/* spin effect: Wrapper detect change textureUrl */}
+       <SpinTransition trigger={config.textureUrl}>
         <Model
           color={config.color}
           material={config.material}
           textureUrl={config.textureUrl}
           showDebug={false}
         />
+        </SpinTransition>
       </Suspense>
 
       {/* Camera controls */}
