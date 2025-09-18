@@ -73,24 +73,26 @@ export default function Home() {
 					</div>
 				</div>
 				<div className={styles.rightContent}>
-					<h1 className={styles.title}>{getFlavorName()}</h1>
-					<h3 className={styles.flavourTitle}>Choose flavour</h3>
+					<div className={styles.rightContentWrapper}>
+						<h1 className={styles.title}>{getFlavorName()}</h1>
+						<h3 className={styles.flavourTitle}>Choose flavour</h3>
 
-					<PresetTextures config={config} setConfig={setConfig} />
+						<PresetTextures config={config} setConfig={setConfig} />
 
-					<h3 className={styles.sugarFreeTitel}>Sugar Free</h3>
+						<h3 className={styles.sugarFreeTitel}>Sugar Free</h3>
 
-					<AddToCartButton
-						config={config}
-						flavorColors={getCurrentFlavor()?.colors}
-						texts={getButtonTexts()}
-						onAddToCart={handleAddToCart}
-					/>
+						<AddToCartButton
+							config={config}
+							flavorColors={getCurrentFlavor()?.colors}
+							texts={getButtonTexts()}
+							onAddToCart={handleAddToCart}
+						/>
 
-					<div className={styles.infoText}>
-						This is some information about some good soda
+						<div className={styles.infoText}>
+							This is some information about some good soda
+						</div>
+						<button className={styles.dropDown}>Ingredients</button>
 					</div>
-					<button className={styles.dropDown}>Ingredients</button>
 				</div>
 			</section>
 		</div>

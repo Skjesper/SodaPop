@@ -13,7 +13,17 @@
 .rightContent {
 	width: 40%;
 	flex-shrink: 0;
+	justify-content: center;
+	align-items: flex-start;
+	display: flex;
 	/* resten samma */
+}
+
+.rightContentWrapper {
+	width: 80%;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
 }
 
 .configuratorWrapper {
