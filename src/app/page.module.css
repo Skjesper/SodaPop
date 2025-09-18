@@ -16,6 +16,7 @@
 	justify-content: center;
 	align-items: flex-start;
 	display: flex;
+	margin-top: 5rem;
 	/* resten samma */
 }
 
@@ -31,4 +32,8 @@
 	height: 100%;
 	position: relative; /* Skapar ny stacking context */
 	/* Detta gör att Configurator's absoluta positioning relaterar till denna wrapper */
+}
+
+.title {
+	font-family: var(--font-dyna-puff);
 }
