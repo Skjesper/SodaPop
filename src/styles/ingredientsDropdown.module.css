@@ -1,0 +1,114 @@
+.ingredientsContainer {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+  }
+  
+  .ingredientsButton {
+    background: rgba(31, 41, 55, 0.9);
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    padding: 12px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+  }
+  
+  .ingredientsButton:hover {
+    background: rgba(31, 41, 55, 1);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-2px);
+  }
+  
+  .buttonText {
+    color: white;
+    font-family: var(--font-dm-sans);
+    font-weight: 600;
+    font-size: 14px;
+  }
+  
+  .cross {
+    color: white;
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.3s ease;
+  }
+  
+  .cross img {
+    width: 18px;
+    height: 18px;
+  }
+  
+   /* .ingredientsButton:hover .cross {
+    transform: rotate(45deg); Rota la cruz en hover 
+  }*/
+  
+  .dropdown {
+    position: absolute;
+    top: 60px;
+    right: 0;
+    background: var(--background);
+    border-radius: 12px;
+    padding: 20px;
+    min-width: 280px;
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(128, 128, 128, 0.2);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: slideDown 0.3s ease;
+  }
+  
+  @keyframes slideDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  
+  .dropdownContent h3 {
+    color: var(--foreground);
+    font-family: var(--font-dm-sans);
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    leading-trim: both;
+    text-edge: cap;
+    margin: 0 0 15px 0;
+    border-bottom: 2px solid var(--Blueberry);
+    padding-bottom: 8px;
+  }
+  
+  .ingredientsList {
+    display: inline-flex;
+    padding-bottom: 20px;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 17px;
+  }
+  
+  .ingredientItem {
+    display: flex;
+    align-items: center;
+  }
+  
+  .ingredientName {
+    color: var(--foreground);
+    font-family: var(--font-dm-sans);
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    leading-trim: both;
+    text-edge: cap;
+  }
