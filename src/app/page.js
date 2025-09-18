@@ -1,51 +1,59 @@
-import Link from 'next/link'
+'use client'
+
+import React, { useState } from 'react'
+import PresetTextures from '../components/PresetTextures'
+import Configurator from '../components/Configurator'
+import { DEFAULT_CONFIG } from '../config/modelConfig'
+import styles from './page.module.css'
 
 export default function Home() {
+	const [config, setConfig] = useState(DEFAULT_CONFIG)
+
+	const getFlavorName = () => {
+		if (!config.textureUrl) {
+			return 'Choose Your Flavor'
+		}
+
+		if (config.textureUrl.includes('BlueberryMint')) {
+			return 'Blueberry Mint'
+		}
+		if (config.textureUrl.includes('OrangeYuzu')) {
+			return 'Orange Yuzu'
+		}
+		if (config.textureUrl.includes('LimeExplosion')) {
+			return 'Lime Explosion'
+		}
+		if (config.textureUrl.includes('StrawberryPunch')) {
+			const isZero = config.textureUrl.includes('Sugarfree')
+			return isZero ? 'Strawberry Punch Sugar Free' : 'Strawberry Punch'
+		}
+
+		return 'Custom Flavor'
+	}
+
 	return (
-		<div
-			style={{
-				display: 'flex',
-				flexDirection: 'column',
-				justifyContent: 'center',
-				alignItems: 'center',
-				height: '100vh',
-				background: 'linear-gradient(135deg, #1f2937 0%, #111827 100%)',
-				color: 'white'
-			}}
-		>
-			<h1 style={{ fontSize: '2rem', marginBottom: '2rem' }}>
-				3D Configurator App
-			</h1>
+		<div>
+			<section className={styles.container}>
+				<div className={styles.leftContent}>
+					<div className={styles.configuratorWrapper}>
+						{/* Skicka config och setConfig som props till Configurator */}
+						<Configurator config={config} setConfig={setConfig} />
+					</div>
+				</div>
+				<div className={styles.rightContent}>
+					<h1 className={styles.title}>{getFlavorName()}</h1>
+					<h3 className={styles.flavourTitle}>Choose flavour</h3>
 
-			<div style={{ display: 'flex', gap: '1rem' }}>
-				<Link
-					href="/configurator"
-					style={{
-						padding: '12px 24px',
-						background: '#3b82f6',
-						color: 'white',
-						textDecoration: 'none',
-						borderRadius: '6px',
-						fontWeight: '500'
-					}}
-				>
-					Launch Configurator
-				</Link>
+					<PresetTextures config={config} setConfig={setConfig} />
 
-				<Link
-					href="/test"
-					style={{
-						padding: '12px 24px',
-						background: '#6b7280',
-						color: 'white',
-						textDecoration: 'none',
-						borderRadius: '6px',
-						fontWeight: '500'
-					}}
-				>
-					Test Three.js
-				</Link>
-			</div>
+					<h3 className={styles.sugarFreeTitel}>Sugar Free</h3>
+					<button>Add to cart</button>
+					<div className={styles.infoText}>
+						This is some information about some good soda
+					</div>
+					<button className={styles.dropDown}>Ingredients</button>
+				</div>
+			</section>
 		</div>
 	)
 }

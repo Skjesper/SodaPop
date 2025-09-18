@@ -17,8 +17,10 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
-			<head></head>
-			<body className={dmSans.className}>{children}</body>{' '}
+			<head>
+				{/* Här kan du lägga till metataggar, t.ex. <meta> för SEO */}
+			</head>
+			<body className={dmSans.className}>{children}</body>
 		</html>
 	)
 }
