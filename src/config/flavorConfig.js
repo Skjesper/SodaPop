@@ -1,5 +1,5 @@
 export const FLAVOR_CONFIG = {
-	BlueberryMint: {
+	blueberryMint: {
 		name: 'Blueberry Mint',
 		colors: {
 			primary: '#51a3d9',
@@ -7,7 +7,7 @@ export const FLAVOR_CONFIG = {
 			hover: '#4285b5'
 		}
 	},
-	OrangeYuzu: {
+	orangeYuzu: {
 		name: 'Orange Yuzu',
 		colors: {
 			primary: '#fe8a26',
@@ -15,7 +15,7 @@ export const FLAVOR_CONFIG = {
 			hover: '#cc6c1e'
 		}
 	},
-	LimeExplosion: {
+	limeExplosion: {
 		name: 'Lime Explosion',
 		colors: {
 			primary: '#83c846',
@@ -23,7 +23,7 @@ export const FLAVOR_CONFIG = {
 			hover: '#679e38'
 		}
 	},
-	StrawberryPunch: {
+	strawberryPunch: {
 		name: 'Strawberry Punch',
 		colors: {
 			primary: '#fe3944',

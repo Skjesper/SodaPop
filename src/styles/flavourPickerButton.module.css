@@ -1,0 +1,55 @@
+.flavourPickerButton {
+	width: 2.5rem;
+	height: 2.5rem;
+	aspect-ratio: 1/1;
+	border: 2px solid transparent; /* Fyrkantig med rundade hörn */
+	cursor: pointer;
+	transition: all 0.3s ease;
+	position: relative;
+}
+
+/* Default variant (fallback) */
+.default {
+	background-color: #007bff;
+}
+
+.default:hover {
+	transform: scale(1.1);
+	box-shadow: 0 4px 8px rgba(0, 123, 255, 0.3);
+}
+
+/* Dynamic variant som använder CSS custom properties */
+.dynamic {
+	background: linear-gradient(
+		135deg,
+		var(--primary-color),
+		var(--secondary-color)
+	);
+	box-shadow: 0 2px 6px var(--shadow-color);
+}
+
+.dynamic:hover {
+	transform: scale(1.1);
+	background: linear-gradient(
+		135deg,
+		var(--secondary-color),
+		var(--hover-color)
+	);
+	box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+/* Selected state - svart border när vald */
+.selected {
+	border: 2px solid #000;
+	transform: none; /* Ta bort scale-effekt */
+}
+
+.selected:hover {
+	transform: scale(1.05); /* Mindre scale på hover när selected */
+}
+
+/* Focus state för accessibility */
+.flavourPickerButton:focus {
+	outline: 2px solid #000;
+	outline-offset: 2px;
+}
