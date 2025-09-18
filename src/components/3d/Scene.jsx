@@ -58,6 +58,7 @@ export default function Scene({ config }) {
 						color={config.color}
 						material={config.material}
 						textureUrl={config.textureUrl}
+						textureControls={config.textureControls}
 						showDebug={false}
 					/>
 				</SpinTransition>

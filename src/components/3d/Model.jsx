@@ -21,7 +21,6 @@ function ModelFallback({ color, material }) {
 }
 
 export default function Model({
-	modelPath, // ← Lägg till denna prop
 	color,
 	material,
 	textureUrl,
@@ -33,10 +32,14 @@ export default function Model({
 	const [boundingBox, setBoundingBox] = useState(null)
 
 	// Load the GLB model - använd modelPath prop
-	const gltf = useGLTF(modelPath)
+	const gltf = useGLTF('/frolig1.glb')
 
 	// Load optional texture
 	const { texture, isLoading: textureLoading } = useOptionalTexture(textureUrl)
+
+	console.log('textureUrl received:', textureUrl)
+	console.log('texture loaded:', texture)
+	console.log('textureControls:', textureControls)
 
 	// Handle loading timeout
 	useEffect(() => {
@@ -95,9 +98,10 @@ export default function Model({
 		if (clonedScene) {
 			clonedScene.traverse((child) => {
 				if (child.isMesh) {
+					console.log('Found mesh:', child.name) // ← DEBUGGING TILLAGT HÄR
 					const meshName = child.name.toLowerCase()
 
-					if (meshName === 'cylinder004_1') {
+					if (meshName === 'cylinder006_1') {
 						// Main body - apply texture and user-selected material
 						let bodyTexture = null
 						if (texture && child.geometry.attributes.uv) {
@@ -133,7 +137,7 @@ export default function Model({
 							metalness: 0.1,
 							map: bodyTexture
 						})
-					} else if (meshName === 'cylinder004') {
+					} else if (meshName === 'cylinder006') {
 						// Glossy material
 						child.material = new THREE.MeshStandardMaterial({
 							color: '#ffffff',
