@@ -35,6 +35,13 @@ export default function Home() {
 		return isSugarFree ? `${currentFlavor.name} Sugar Free` : currentFlavor.name
 	}
 
+	const getFlavorText = (textKey) => {
+		const currentFlavor = getCurrentFlavor()
+		return (
+			currentFlavor?.text?.[textKey] || 'Choose your flavor to see description'
+		)
+	}
+
 	const getButtonTexts = () => {
 		const flavorName = getFlavorName()
 
@@ -94,7 +101,7 @@ export default function Home() {
 						/>
 
 						<div className={styles.infoText}>
-							This is some information about some good soda
+							{getFlavorText('description')}
 						</div>
 						<button className={styles.dropDown}>Ingredients</button>
 					</div>
