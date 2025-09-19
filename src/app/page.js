@@ -65,11 +65,10 @@ export default function Home() {
 		})
 	}
 
-	// Skapa inline style för titeln baserat på smakens färg
 	const getTitleStyle = () => {
 		const currentFlavor = getCurrentFlavor()
 		if (!currentFlavor?.colors) {
-			return {} // Fallback till CSS-färg
+			return {}
 		}
 
 		return {
@@ -86,29 +85,32 @@ export default function Home() {
 					</div>
 				</div>
 				<div className={styles.rightContent}>
-					<div className={styles.rightContentWrapper}>
-						<h1 className={styles.title} style={getTitleStyle()}>
-							{getFlavorName()}
-						</h1>
-						<h3 className={styles.flavourTitle}>Choose flavour</h3>
+					<div className={styles.rightContentInner}>
+						<div className={styles.rightContentWrapper}>
+							<h1 className={styles.title} style={getTitleStyle()}>
+								{getFlavorName()}
+							</h1>
+							<h3 className={styles.flavourTitle}>Choose flavour</h3>
 
-						<PresetTextures config={config} setConfig={setConfig} />
+							<PresetTextures config={config} setConfig={setConfig} />
 
-						<h3 className={styles.sugarFreeTitle}>Sugar Free</h3>
+							<h3 className={styles.sugarFreeTitle}>Sugar Free</h3>
 
-						<SugarFreeTextures config={config} setConfig={setConfig} />
+							<SugarFreeTextures config={config} setConfig={setConfig} />
 
-						<AddToCartButton
-							config={config}
-							flavorColors={getCurrentFlavor()?.colors}
-							texts={getButtonTexts()}
-							onAddToCart={handleAddToCart}
-						/>
+							<AddToCartButton
+								config={config}
+								flavorColors={getCurrentFlavor()?.colors}
+								texts={getButtonTexts()}
+								onAddToCart={handleAddToCart}
+							/>
 
-						<div className={styles.infoText}>
-							{getFlavorText('description')}
+							<div className={styles.infoText}>
+								{getFlavorText('description')}
+							</div>
+							<IngredientsDropdown ingredients={getIngredients()} />
 						</div>
-						<IngredientsDropdown ingredients={getIngredients()} />
+						<div style={{ height: '300px' }} />
 					</div>
 				</div>
 			</section>
