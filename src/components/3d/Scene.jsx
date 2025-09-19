@@ -3,6 +3,7 @@ import { Suspense } from 'react'
 import Model from './Model'
 import SpinTransition from './SpinTransition'
 import FruitBackground from './FruitBackground';
+import IceCircles from './IceCircles'
 
 
 // Simple fallback component
@@ -53,6 +54,8 @@ export default function Scene({ config }) {
 
 			{/* Model with Suspense fallback */}
 			<Suspense fallback={<ModelFallback />}>
+			{/* Ice circles - capa intermedia */}
+			<IceCircles count={4} />
 				{/* spin effect: Wrapper detect change textureUrl */}
 				<SpinTransition trigger={config.textureUrl}>
 					<Model
