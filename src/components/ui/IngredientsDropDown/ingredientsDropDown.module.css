@@ -1,11 +1,16 @@
+.container {
+	position: relative;
+	margin-top: 1rem;
+}
+
 .ingredientsHeader {
 	font-weight: 600;
 	font-size: 18px;
 	line-height: 22px;
-	margin-bottom: 10px;
-	color: var(--background);
+	color: black;
 	display: flex;
 	justify-content: space-between;
+	cursor: pointer;
 }
 
 .plusIcon {
@@ -13,26 +18,31 @@
 	font-weight: 300;
 }
 
-.ingredientList {
+.content {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.3s ease;
 	color: black;
+}
+
+.contentOpen {
+	max-height: 500px;
+}
+
+.ingredientList {
 	list-style: none;
+	padding: 10px 0;
+	margin: 0;
+}
+
+.ingredientList li {
+	padding: 2px 0;
 }
 
 .underLine {
 	height: 1px;
 	background-color: black;
 	width: 100%;
-	transform-origin: top;
 	transition: transform 0.3s ease;
-}
-
-.content {
-	max-height: 0;
-	overflow: hidden;
-	transition: max-height 0.3s ease;
-	transform: translateY(-1px);
-}
-
-.contentOpen {
-	max-height: 500px;
+	margin-top: 0.5rem;
 }

@@ -5,7 +5,7 @@ function IngredientsDropdown({ ingredients = [] }) {
 	const [isOpen, setIsOpen] = useState(false)
 
 	return (
-		<div>
+		<div className={styles.container}>
 			<div
 				className={styles.ingredientsHeader}
 				onClick={() => setIsOpen(!isOpen)}
@@ -14,17 +14,15 @@ function IngredientsDropdown({ ingredients = [] }) {
 				<span className={styles.plusIcon}>{isOpen ? '-' : '+'}</span>
 			</div>
 
-			<div className={styles.underLine}></div>
-
 			<div className={`${styles.content} ${isOpen ? styles.contentOpen : ''}`}>
-				{ingredients.length > 0 && (
-					<ul className={styles.ingredientList}>
-						{ingredients.map((ingredient, index) => (
-							<li key={index}>{ingredient}</li>
-						))}
-					</ul>
-				)}
+				<ul className={styles.ingredientList}>
+					{ingredients.map((ingredient, index) => (
+						<li key={index}>{ingredient}</li>
+					))}
+				</ul>
 			</div>
+
+			<div className={styles.underLine}></div>
 		</div>
 	)
 }
