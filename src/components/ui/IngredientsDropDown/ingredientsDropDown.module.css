@@ -1,0 +1,38 @@
+.ingredientsHeader {
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 22px;
+	margin-bottom: 10px;
+	color: var(--background);
+	display: flex;
+	justify-content: space-between;
+}
+
+.plusIcon {
+	font-size: 24px;
+	font-weight: 300;
+}
+
+.ingredientList {
+	color: black;
+	list-style: none;
+}
+
+.underLine {
+	height: 1px;
+	background-color: black;
+	width: 100%;
+	transform-origin: top;
+	transition: transform 0.3s ease;
+}
+
+.content {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.3s ease;
+	transform: translateY(-1px);
+}
+
+.contentOpen {
+	max-height: 500px;
+}

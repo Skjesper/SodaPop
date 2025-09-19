@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import AddToCartButton from '../components/ui/AddToCartButton'
 import PresetTextures from '../components/PresetTextures'
 import SugarFreeTextures from '../components/SugarFreeTextures'
+import IngredientsDropdown from '../components/ui/IngredientsDropDown/IngredientsDropDown'
 import Configurator from '../components/Configurator'
 import { DEFAULT_CONFIG } from '../config/modelConfig'
 import { FLAVOR_CONFIG } from '../config/flavorConfig'
@@ -29,7 +30,6 @@ export default function Home() {
 			return 'Choose Your Flavor'
 		}
 
-		// Kolla om det är sugar free version
 		const isSugarFree = config.textureUrl?.includes('Sugarfree')
 
 		return isSugarFree ? `${currentFlavor.name} Sugar Free` : currentFlavor.name
@@ -40,6 +40,11 @@ export default function Home() {
 		return (
 			currentFlavor?.text?.[textKey] || 'Choose your flavor to see description'
 		)
+	}
+
+	const getIngredients = () => {
+		const currentFlavor = getCurrentFlavor()
+		return currentFlavor?.ingredients || []
 	}
 
 	const getButtonTexts = () => {
@@ -103,7 +108,7 @@ export default function Home() {
 						<div className={styles.infoText}>
 							{getFlavorText('description')}
 						</div>
-						<button className={styles.dropDown}>Ingredients</button>
+						<IngredientsDropdown ingredients={getIngredients()} />
 					</div>
 				</div>
 			</section>
