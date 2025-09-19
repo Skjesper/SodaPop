@@ -1,19 +1,19 @@
-import { useState, useEffect } from 'react';
-import { FruitFactory } from '../../factories/FruitFactory';
-import { ProvisionalFruit } from './ProvisionalFruit';
+import { useState, useEffect } from "react";
+import { FruitFactory } from "../../factories/FruitFactory";
+import { Fruit } from "./Fruit";
 
 export default function FruitBackground({ config }) {
   const [fruits, setFruits] = useState([]);
 
   useEffect(() => {
-    const newFruits = FruitFactory.createFruitsByTexture(config.textureUrl, 6);
+    const newFruits = FruitFactory.createFruitsByTexture(config.textureUrl, 9);
     setFruits(newFruits);
   }, [config.textureUrl]);
 
   return (
     <group>
       {fruits.map((fruit) => (
-        <ProvisionalFruit
+        <Fruit
           key={fruit.key}
           fruitType={fruit.type}
           position={fruit.position}
