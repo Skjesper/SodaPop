@@ -1,4 +1,5 @@
 export const CONFIG_OPTIONS = {
+
   models: {
     base: "/frolig1.glb",
     variant1: "/assets/models/product-variant-1.gltf",
@@ -18,6 +19,54 @@ export const CONFIG_OPTIONS = {
     //   texturePath: '/assets/fruitModels/blueberry/textures/blueberry_diffuse.jpeg'
     // }
   },
+  
+	colors: {
+		red: '#ff4444',
+		blue: '#4444ff',
+		green: '#44ff44',
+		black: '#222222',
+		white: '#ffffff01',
+		orange: '#ff8844',
+		purple: '#8844ff',
+		yellow: '#ffff44'
+	},
+	materials: {
+		matte: {
+			roughness: 0.8,
+			metalness: 0.1,
+			name: 'Matte'
+		},
+		glossy: {
+			roughness: 0.2,
+			metalness: 0.1,
+			name: 'Glossy'
+		},
+		metallic: {
+			roughness: 0.3,
+			metalness: 0.9,
+			name: 'Metallic'
+		},
+		plastic: {
+			roughness: 0.4,
+			metalness: 0.0,
+			name: 'Plastic'
+		}
+	},
+	textures: {
+		blueberryMint: '/assets/textures/Label_BlueberryMint.png',
+		orangeYuzu: '/assets/textures/Label_OrangeYuzu.png',
+		limeExplosion: '/assets/textures/Label_LimeExplosion.png',
+		strawberryPunch: '/assets/textures/Label_StrawberryPunch.png',
+
+		blueberryMintSugarFree:
+			'/assets/textures/Label_BlueberryMint-Sugarfree.png',
+		orangeYuzuSugarFree: '/assets/textures/Label_OrangeYuzu-Sugarfree.png',
+		limeExplosionSugarFree:
+			'/assets/textures/Label_LimeExplosion-Sugarfree.png',
+		strawberryPunchSugarFree:
+			'/assets/textures/Label_StrawberryPunch-Sugarfree.png'
+	},
+
 
   colors: {
     red: "#ff4444",

@@ -1,6 +1,6 @@
 :root {
-	--background: #ffffff;
-	--foreground: #171717;
+	--background: #171717;
+	--foreground: #ffffff;
 	--Strawberry: #fe3944;
 	--Yuzu: #fe8a26;
 	--Blueberry: #51a3d9;
@@ -12,13 +12,6 @@
 
 	--font-dm-sans: 'DM Sans', sans-serif;
 	--font-dyna-puff: 'DynaPuff', cursive;
-}
-
-@media (prefers-color-scheme: dark) {
-	:root {
-		--background: #ffffff;
-		--foreground: #171717;
-	}
 }
 
 body {
