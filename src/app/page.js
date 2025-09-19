@@ -85,32 +85,29 @@ export default function Home() {
 					</div>
 				</div>
 				<div className={styles.rightContent}>
-					<div className={styles.rightContentInner}>
-						<div className={styles.rightContentWrapper}>
-							<h1 className={styles.title} style={getTitleStyle()}>
-								{getFlavorName()}
-							</h1>
-							<h3 className={styles.flavourTitle}>Choose flavour</h3>
+					<div className={styles.rightContentWrapper}>
+						<h1 className={styles.title} style={getTitleStyle()}>
+							{getFlavorName()}
+						</h1>
+						<h3 className={styles.flavourTitle}>Choose flavour</h3>
 
-							<PresetTextures config={config} setConfig={setConfig} />
+						<PresetTextures config={config} setConfig={setConfig} />
 
-							<h3 className={styles.sugarFreeTitle}>Sugar Free</h3>
+						<h3 className={styles.sugarFreeTitle}>Sugar Free</h3>
 
-							<SugarFreeTextures config={config} setConfig={setConfig} />
+						<SugarFreeTextures config={config} setConfig={setConfig} />
 
-							<AddToCartButton
-								config={config}
-								flavorColors={getCurrentFlavor()?.colors}
-								texts={getButtonTexts()}
-								onAddToCart={handleAddToCart}
-							/>
+						<AddToCartButton
+							config={config}
+							flavorColors={getCurrentFlavor()?.colors}
+							texts={getButtonTexts()}
+							onAddToCart={handleAddToCart}
+						/>
 
-							<div className={styles.infoText}>
-								{getFlavorText('description')}
-							</div>
-							<IngredientsDropdown ingredients={getIngredients()} />
+						<div className={styles.infoText}>
+							{getFlavorText('description')}
 						</div>
-						<div style={{ height: '300px' }} />
+						<IngredientsDropdown ingredients={getIngredients()} />
 					</div>
 				</div>
 			</section>
