@@ -1,4 +1,3 @@
-// components/3D/MovementAnimation.jsx
 import { useRef } from "react";
 import { useFrame } from "@react-three/fiber";
 

@@ -1,0 +1,49 @@
+.addToCartButton {
+	display: flex;
+
+	padding: 0.5rem 1rem;
+	justify-content: center;
+	align-items: center;
+	gap: 0.25rem;
+	border-radius: 4.0625rem;
+	border: none;
+	margin-top: 1rem;
+}
+
+/* Default variant (fallback) */
+.default {
+	background-color: #007bff;
+	color: white;
+}
+
+.default:hover {
+	background-color: #0056b3;
+	transform: translateY(-2px);
+}
+
+/* Dynamic variant som använder CSS custom properties */
+.dynamic {
+	background: linear-gradient(
+		135deg,
+		var(--primary-color),
+		var(--secondary-color)
+	);
+	color: var(--text-color);
+	box-shadow: 0 4px 12px var(--shadow-color);
+}
+
+.dynamic:hover {
+	background: linear-gradient(
+		135deg,
+		var(--secondary-color),
+		var(--hover-color)
+	);
+	transform: translateY(-2px);
+	box-shadow: 0 6px 16px var(--shadow-color);
+}
+
+/* Clicked state */
+.clicked {
+	transform: scale(0.95);
+	opacity: 0.8;
+}
