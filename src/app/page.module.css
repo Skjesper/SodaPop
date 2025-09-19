@@ -1,13 +1,12 @@
 .container {
 	display: flex;
 	height: 100vh;
-	overflow: hidden; /* Viktig - förhindrar Configurator från att läcka ut */
+	overflow: hidden;
 }
 
 .leftContent {
 	width: 60%;
 	flex-shrink: 0;
-	/* resten samma */
 }
 
 .rightContent {
@@ -16,10 +15,8 @@
 	justify-content: center;
 	align-items: flex-start;
 	display: flex;
-	padding-top: 5rem;
+	padding-top: 4rem;
 	background-color: white;
-
-	/* resten samma */
 }
 
 .rightContentWrapper {
@@ -27,14 +24,13 @@
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
-	gap: 1.5rem;
+	gap: 1rem;
 }
 
 .configuratorWrapper {
 	width: 100%;
 	height: 100%;
-	position: relative; /* Skapar ny stacking context */
-	/* Detta gör att Configurator's absoluta positioning relaterar till denna wrapper */
+	position: relative;
 }
 
 .title {
@@ -53,4 +49,5 @@
 
 .infoText {
 	color: var(--background);
+	margin-top: 0.75rem;
 }

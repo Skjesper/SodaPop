@@ -37,13 +37,11 @@ export const CONFIG_OPTIONS = {
 		}
 	},
 	textures: {
-		// Regular variants (bas-smaker)
 		blueberryMint: '/assets/textures/Label_BlueberryMint.png',
 		orangeYuzu: '/assets/textures/Label_OrangeYuzu.png',
 		limeExplosion: '/assets/textures/Label_LimeExplosion.png',
-		strawberryPunch: '/assets/textures/Label_StrawberryPunch.png', // TA BORT -Sugarfree här!
+		strawberryPunch: '/assets/textures/Label_StrawberryPunch.png',
 
-		// Sugar Free variants
 		blueberryMintSugarFree:
 			'/assets/textures/Label_BlueberryMint-Sugarfree.png',
 		orangeYuzuSugarFree: '/assets/textures/Label_OrangeYuzu-Sugarfree.png',
