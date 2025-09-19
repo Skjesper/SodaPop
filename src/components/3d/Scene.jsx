@@ -2,6 +2,8 @@ import { OrbitControls } from '@react-three/drei'
 import { Suspense } from 'react'
 import Model from './Model'
 import SpinTransition from './SpinTransition'
+import FruitBackground from './FruitBackground';
+
 
 // Simple fallback component
 function ModelFallback() {
@@ -62,6 +64,8 @@ export default function Scene({ config }) {
 						showDebug={false}
 					/>
 				</SpinTransition>
+					{/* Background from the "FruitFactrory"*/}
+				<FruitBackground config={config} />
 			</Suspense>
 
 			{/* Camera controls */}
