@@ -110,7 +110,6 @@ export default function Home() {
 							</div>
 							<IngredientsDropdown ingredients={getIngredients()} />
 						</div>
-						<div style={{ height: '300px' }} />
 					</div>
 				</div>
 			</section>

@@ -17,6 +17,8 @@
 	display: flex;
 	padding-top: 2rem;
 	background-color: white;
+	overflow-y: scroll;
+	padding-bottom: 2rem;
 }
 
 .rightContentWrapper {
