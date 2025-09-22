@@ -1,6 +1,5 @@
 .addToCartButton {
 	display: flex;
-
 	padding: 0.5rem 1rem;
 	justify-content: center;
 	align-items: center;
@@ -8,6 +7,8 @@
 	border-radius: 4.0625rem;
 	border: none;
 	margin-top: 1rem;
+	transition: all 0.2s ease;
+	position: relative;
 }
 
 /* Default variant (fallback) */
@@ -30,14 +31,31 @@
 	);
 	color: var(--text-color);
 	box-shadow: 0 4px 12px var(--shadow-color);
+	position: relative;
+}
+
+.dynamic::before {
+	content: '';
+	position: absolute;
+	top: 0;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	background: linear-gradient(
+		135deg,
+		var(--primary-color),
+		var(--secondary-color)
+	);
+	border-radius: inherit;
+	z-index: -1;
+	transition: filter 0.2s ease;
+}
+
+.dynamic:hover::before {
+	filter: brightness(0.85);
 }
 
 .dynamic:hover {
-	background: linear-gradient(
-		135deg,
-		var(--secondary-color),
-		var(--hover-color)
-	);
 	transform: translateY(-2px);
 	box-shadow: 0 6px 16px var(--shadow-color);
 }
