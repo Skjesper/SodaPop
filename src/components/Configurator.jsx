@@ -11,27 +11,27 @@ import { DEFAULT_CONFIG } from '../config/modelConfig'
 export default function Configurator({ config, setConfig }) {
 	const getBackgroundForTexture = () => {
 		if (!config.textureUrl) {
-			return 'linear-gradient(135deg, #ff0080 0%, #8000ff 100%)' // Rosa för test
+			return '#ff0080'
 		}
 
 		if (config.textureUrl.includes('BlueberryMint')) {
-			return `linear-gradient(135deg, ${CONFIG_OPTIONS.flavorColors.blueberry} 0%, #0f172a 100%)`
+			return CONFIG_OPTIONS.flavorColors.blueberry
 		}
 		if (config.textureUrl.includes('OrangeYuzu')) {
-			return `linear-gradient(135deg, ${CONFIG_OPTIONS.flavorColors.yuzu} 0%, #431407 100%)`
+			return CONFIG_OPTIONS.flavorColors.yuzu
 		}
 		if (config.textureUrl.includes('LimeExplosion')) {
-			return `linear-gradient(135deg, ${CONFIG_OPTIONS.flavorColors.lime} 0%, #052e16 100%)`
+			return CONFIG_OPTIONS.flavorColors.lime
 		}
 		if (config.textureUrl.includes('StrawberryPunch')) {
 			const isZero = config.textureUrl.includes('Sugarfree')
 			const strawberryColor = isZero
 				? CONFIG_OPTIONS.flavorColors.strawberryZero
 				: CONFIG_OPTIONS.flavorColors.strawberry
-			return `linear-gradient(135deg, ${strawberryColor} 0%, #450a0a 100%)`
+			return strawberryColor
 		}
 
-		return 'linear-gradient(135deg, #00ff00 0%, #ffff00 100%)' // Grön för okänd
+		return '#000000'
 	}
 
 	const background = getBackgroundForTexture()
