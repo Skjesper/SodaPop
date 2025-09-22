@@ -2,9 +2,8 @@ import { OrbitControls } from '@react-three/drei'
 import { Suspense } from 'react'
 import Model from './Model'
 import SpinTransition from './SpinTransition'
-import FruitBackground from './FruitBackground';
+import FruitBackground from './FruitBackground'
 import IceCircles from './IceCircles'
-
 
 // Simple fallback component
 function ModelFallback() {
@@ -54,8 +53,8 @@ export default function Scene({ config }) {
 
 			{/* Model with Suspense fallback */}
 			<Suspense fallback={<ModelFallback />}>
-			{/* Ice circles - capa intermedia */}
-			<IceCircles count={4} />
+				{/* Ice circles - capa intermedia */}
+				{/* <IceCircles count={4} /> */}
 				{/* spin effect: Wrapper detect change textureUrl */}
 				<SpinTransition trigger={config.textureUrl}>
 					<Model
@@ -67,8 +66,8 @@ export default function Scene({ config }) {
 						showDebug={false}
 					/>
 				</SpinTransition>
-					{/* Background from the "FruitFactrory"*/}
-				<FruitBackground config={config} />
+				{/* Background from the "FruitFactrory"*/}
+				{/* <FruitBackground config={config} /> */}
 			</Suspense>
 
 			{/* Camera controls */}

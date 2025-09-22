@@ -40,41 +40,50 @@ export default function Configurator({ config, setConfig }) {
 		return '#000000'
 	}
 
-	const background = getBackgroundForTexture()
+	const getBackgroundImage = () => {
+		if (!config.textureUrl) return null
+
+		const isZero = config.textureUrl.includes('Sugarfree')
+
+		if (config.textureUrl.includes('BlueberryMint')) {
+			return isZero
+				? CONFIG_OPTIONS.backgroundImages.blueberryZero
+				: CONFIG_OPTIONS.backgroundImages.blueberry
+		}
+		if (config.textureUrl.includes('OrangeYuzu')) {
+			return isZero
+				? CONFIG_OPTIONS.backgroundImages.yuzuZero
+				: CONFIG_OPTIONS.backgroundImages.yuzu
+		}
+		if (config.textureUrl.includes('LimeExplosion')) {
+			return isZero
+				? CONFIG_OPTIONS.backgroundImages.limeZero
+				: CONFIG_OPTIONS.backgroundImages.lime
+		}
+		if (config.textureUrl.includes('StrawberryPunch')) {
+			return isZero
+				? CONFIG_OPTIONS.backgroundImages.strawberryZero
+				: CONFIG_OPTIONS.backgroundImages.strawberry
+		}
+
+		return null
+	}
+
+	const getBackgroundStyle = () => {
+		const color = getBackgroundForTexture()
+		const image = getBackgroundImage()
+
+		return {
+			backgroundColor: color,
+			backgroundImage: image ? `url(${image})` : 'none',
+			backgroundSize: '80%',
+			backgroundPosition: 'center',
+			backgroundRepeat: 'no-repeat'
+		}
+	}
 
 	return (
-		<div className={styles.appContainer} style={{ background: background }}>
-			{/* DEBUG BOX - Vit box med röd kant */}
-			<div
-				style={{
-					position: 'absolute',
-					top: '10px',
-					right: '10px',
-					background: 'rgba(255,255,255,0.95)',
-					color: 'black',
-					padding: '15px',
-					borderRadius: '8px',
-					fontSize: '14px',
-					fontWeight: 'bold',
-					zIndex: 1000,
-					border: '3px solid #ff0000',
-					boxShadow: '0 4px 8px rgba(0,0,0,0.3)'
-				}}
-			>
-				<div style={{ marginBottom: '5px' }}>🔍 DEBUG INFO</div>
-				<div style={{ marginBottom: '3px' }}>
-					Texture:{' '}
-					{config.textureUrl ? config.textureUrl.split('/').pop() : 'None'}
-				</div>
-				<div style={{ marginBottom: '3px' }}>
-					Background: {background.substring(0, 30)}...
-				</div>
-				<div>
-					FlavorColors:{' '}
-					{CONFIG_OPTIONS.flavorColors ? 'Loaded ✅' : 'Missing ❌'}
-				</div>
-			</div>
-
+		<div className={styles.appContainer} style={getBackgroundStyle()}>
 			<Canvas
 				shadows
 				camera={{
