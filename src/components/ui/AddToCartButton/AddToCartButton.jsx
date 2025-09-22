@@ -1,6 +1,6 @@
 // AddToCartButton med CSS Custom Properties
 import { useState } from 'react'
-import styles from '../../styles/addToCartButton.module.css'
+import styles from './addToCartButton.module.css'
 
 export default function AddToCartButton({
 	config,

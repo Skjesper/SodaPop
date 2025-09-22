@@ -1,7 +1,7 @@
 'use client'
 
 import React, { useState } from 'react'
-import AddToCartButton from '../components/ui/AddToCartButton'
+import AddToCartButton from '../components/ui/AddToCartButton/AddToCartButton'
 import PresetTextures from '../components/PresetTextures'
 import SugarFreeTextures from '../components/SugarFreeTextures'
 import IngredientsDropdown from '../components/ui/IngredientsDropDown/IngredientsDropDown'
