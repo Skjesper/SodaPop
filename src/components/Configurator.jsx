@@ -14,21 +14,27 @@ export default function Configurator({ config, setConfig }) {
 			return '#ff0080'
 		}
 
+		const isZero = config.textureUrl.includes('Sugarfree')
+
 		if (config.textureUrl.includes('BlueberryMint')) {
-			return CONFIG_OPTIONS.flavorColors.blueberry
+			return isZero
+				? CONFIG_OPTIONS.flavorColors.blueberryZero
+				: CONFIG_OPTIONS.flavorColors.blueberry
 		}
 		if (config.textureUrl.includes('OrangeYuzu')) {
-			return CONFIG_OPTIONS.flavorColors.yuzu
+			return isZero
+				? CONFIG_OPTIONS.flavorColors.yuzuZero
+				: CONFIG_OPTIONS.flavorColors.yuzu
 		}
 		if (config.textureUrl.includes('LimeExplosion')) {
-			return CONFIG_OPTIONS.flavorColors.lime
+			return isZero
+				? CONFIG_OPTIONS.flavorColors.limeZero
+				: CONFIG_OPTIONS.flavorColors.lime
 		}
 		if (config.textureUrl.includes('StrawberryPunch')) {
-			const isZero = config.textureUrl.includes('Sugarfree')
-			const strawberryColor = isZero
+			return isZero
 				? CONFIG_OPTIONS.flavorColors.strawberryZero
 				: CONFIG_OPTIONS.flavorColors.strawberry
-			return strawberryColor
 		}
 
 		return '#000000'

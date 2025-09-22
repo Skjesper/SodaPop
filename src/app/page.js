@@ -23,6 +23,24 @@ export default function Home() {
 		return flavorKey ? FLAVOR_CONFIG[flavorKey] : null
 	}
 
+	const getCurrentColors = () => {
+		const currentFlavor = getCurrentFlavor()
+		if (!currentFlavor?.colors) return null
+
+		const isSugarFree = config.textureUrl?.includes('Sugarfree')
+
+		if (isSugarFree && currentFlavor.colors.zero) {
+			return {
+				...currentFlavor.colors,
+				primary: currentFlavor.colors.zero,
+				secondary: currentFlavor.colors.zero,
+				hover: currentFlavor.colors.zero
+			}
+		}
+
+		return currentFlavor.colors
+	}
+
 	const getFlavorName = () => {
 		const currentFlavor = getCurrentFlavor()
 
@@ -66,13 +84,11 @@ export default function Home() {
 	}
 
 	const getTitleStyle = () => {
-		const currentFlavor = getCurrentFlavor()
-		if (!currentFlavor?.colors) {
-			return {}
-		}
+		const colors = getCurrentColors()
+		if (!colors) return {}
 
 		return {
-			color: currentFlavor.colors.primary
+			color: colors.primary
 		}
 	}
 
@@ -100,7 +116,7 @@ export default function Home() {
 
 							<AddToCartButton
 								config={config}
-								flavorColors={getCurrentFlavor()?.colors}
+								flavorColors={getCurrentColors()}
 								texts={getButtonTexts()}
 								onAddToCart={handleAddToCart}
 							/>
