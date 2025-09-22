@@ -1,11 +1,11 @@
 'use client'
 
 import React, { useState } from 'react'
-import AddToCartButton from '../components/ui/AddToCartButton'
+import AddToCartButton from '../components/ui/AddToCartButton/AddToCartButton'
 import PresetTextures from '../components/PresetTextures'
 import SugarFreeTextures from '../components/SugarFreeTextures'
 import IngredientsDropdown from '../components/ui/IngredientsDropDown/IngredientsDropDown'
-import Configurator from '../components/Configurator'
+import Configurator from '../components/Configurator/Configurator'
 import { DEFAULT_CONFIG } from '../config/modelConfig'
 import { FLAVOR_CONFIG } from '../config/flavorConfig'
 import styles from './page.module.css'

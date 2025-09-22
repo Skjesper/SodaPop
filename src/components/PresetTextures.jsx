@@ -3,8 +3,8 @@
 import React from 'react'
 import { CONFIG_OPTIONS } from '../config/modelConfig'
 import { FLAVOR_CONFIG } from '../config/flavorConfig'
-import { FlavourPickerButton } from './ui/FlavourPickerButton'
-import styles from '../styles/configurator.module.css'
+import { FlavourPickerButton } from './ui/FlavourPickerButton/FlavourPickerButton'
+import styles from '../components/Configurator/configurator.module.css'
 
 const PresetTextures = ({ config, setConfig }) => {
 	const handlePresetTextureChange = (textureKey) => {
