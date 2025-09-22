@@ -65,6 +65,21 @@ export const CONFIG_OPTIONS = {
 		strawberryPunchSugarFree:
 			'/assets/textures/Label_StrawberryPunch-Sugarfree.png'
 	},
+	backgroundImages: {
+		// Regular variants
+		blueberry: '/assets/fruitBackground/Background_BlueberryMint.png',
+		yuzu: '/assets/fruitBackground/Background_OrangeYuzu.png',
+		lime: '/assets/fruitBackground/Background_LimeExplosion.png',
+		strawberry: '/assets/fruitBackground/Background_StrawberryPunch.png',
+
+		// Zero variants
+		blueberryZero:
+			'/assets/fruitBackground/Background_BlueberryMint-Sugarfree.png',
+		yuzuZero: '/assets/fruitBackground/Background_OrangeYuzu-Sugarfree.png',
+		limeZero: '/assets/fruitBackground/Background_LimeExplosion-Sugarfree.png',
+		strawberryZero:
+			'/assets/fruitBackground/Background_StrawberryPunch-Sugarfree.png'
+	},
 
 	colors: {
 		red: '#ff4444',
