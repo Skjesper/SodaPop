@@ -4,7 +4,8 @@ export const FLAVOR_CONFIG = {
 		colors: {
 			primary: '#51a3d9',
 			secondary: '#4a94c7',
-			hover: '#4285b5'
+			hover: '#4285b5',
+			zero: '#056db2' // Zero version color
 		},
 		text: {
 			description:
@@ -27,7 +28,8 @@ export const FLAVOR_CONFIG = {
 		colors: {
 			primary: '#fe8a26',
 			secondary: '#e57b22',
-			hover: '#cc6c1e'
+			hover: '#cc6c1e',
+			zero: '#ffbd37' // Zero version color
 		},
 		text: {
 			description:
@@ -50,7 +52,8 @@ export const FLAVOR_CONFIG = {
 		colors: {
 			primary: '#83c846',
 			secondary: '#75b33f',
-			hover: '#679e38'
+			hover: '#679e38',
+			zero: '#40790e' // Zero version color
 		},
 		text: {
 			description:
@@ -73,7 +76,8 @@ export const FLAVOR_CONFIG = {
 		colors: {
 			primary: '#fe3944',
 			secondary: '#e5333d',
-			hover: '#cc2d36'
+			hover: '#cc2d36',
+			zero: '#d1000c' // Zero version color
 		},
 		text: {
 			description:
