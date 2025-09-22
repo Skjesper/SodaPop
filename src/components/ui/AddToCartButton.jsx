@@ -31,7 +31,6 @@ export default function AddToCartButton({
 		? {
 				'--primary-color': flavorColors.primary,
 				'--secondary-color': flavorColors.secondary,
-				'--hover-color': flavorColors.hover,
 				'--text-color': flavorColors.textColor || 'white',
 				'--shadow-color': flavorColors.primary + '40'
 		  }
