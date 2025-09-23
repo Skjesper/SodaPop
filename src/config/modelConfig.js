@@ -52,11 +52,13 @@ export const CONFIG_OPTIONS = {
 		}
 	},
 	textures: {
+		// Regular variants (bas-smaker)
 		blueberryMint: '/assets/textures/Label_BlueberryMint.png',
 		orangeYuzu: '/assets/textures/Label_OrangeYuzu.png',
 		limeExplosion: '/assets/textures/Label_LimeExplosion.png',
 		strawberryPunch: '/assets/textures/Label_StrawberryPunch.png',
 
+		// Sugar Free variants
 		blueberryMintSugarFree:
 			'/assets/textures/Label_BlueberryMint-Sugarfree.png',
 		orangeYuzuSugarFree: '/assets/textures/Label_OrangeYuzu-Sugarfree.png',
@@ -81,55 +83,6 @@ export const CONFIG_OPTIONS = {
 			'/assets/fruitBackground/Background_StrawberryPunch-Sugarfree.png'
 	},
 
-	colors: {
-		red: '#ff4444',
-		blue: '#4444ff',
-		green: '#44ff44',
-		black: '#222222',
-		white: '#ffffff01',
-		orange: '#ff8844',
-		purple: '#8844ff',
-		yellow: '#ffff44'
-	},
-	materials: {
-		matte: {
-			roughness: 0.8,
-			metalness: 0.1,
-			name: 'Matte'
-		},
-		glossy: {
-			roughness: 0.2,
-			metalness: 0.1,
-			name: 'Glossy'
-		},
-		metallic: {
-			roughness: 0.3,
-			metalness: 0.9,
-			name: 'Metallic'
-		},
-		plastic: {
-			roughness: 0.4,
-			metalness: 0.0,
-			name: 'Plastic'
-		}
-	},
-	textures: {
-		// Regular variants (bas-smaker)
-		blueberryMint: '/assets/textures/Label_BlueberryMint.png',
-		orangeYuzu: '/assets/textures/Label_OrangeYuzu.png',
-		limeExplosion: '/assets/textures/Label_LimeExplosion.png',
-		strawberryPunch: '/assets/textures/Label_StrawberryPunch.png', // TA BORT -Sugarfree här!
-
-		// Sugar Free variants
-		blueberryMintSugarFree:
-			'/assets/textures/Label_BlueberryMint-Sugarfree.png',
-		orangeYuzuSugarFree: '/assets/textures/Label_OrangeYuzu-Sugarfree.png',
-		limeExplosionSugarFree:
-			'/assets/textures/Label_LimeExplosion-Sugarfree.png',
-		strawberryPunchSugarFree:
-			'/assets/textures/Label_StrawberryPunch-Sugarfree.png'
-	},
-
 	flavorColors: {
 		strawberry: '#fe3944',
 		yuzu: '#fe8a26',
@@ -142,16 +95,18 @@ export const CONFIG_OPTIONS = {
 	}
 }
 
-const getRandomTexture = () => {
-	const textures = Object.values(CONFIG_OPTIONS.textures)
-	return textures[Math.floor(Math.random() * textures.length)]
+// Hämta första texturen som default istället för random
+const getFirstTexture = () => {
+	const textureKeys = Object.keys(CONFIG_OPTIONS.textures)
+	const firstTextureKey = textureKeys[0] // 'blueberryMint'
+	return CONFIG_OPTIONS.textures[firstTextureKey]
 }
 
 export const DEFAULT_CONFIG = {
 	modelPath: CONFIG_OPTIONS.models.base,
 	color: CONFIG_OPTIONS.colors.red,
 	material: CONFIG_OPTIONS.materials.matte,
-	textureUrl: getRandomTexture(),
+	textureUrl: getFirstTexture(), // Nu används första texturen konsekvent
 	textureControls: {
 		repeatX: 1,
 		repeatY: 1,
