@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import AddToCartButton from '../components/ui/AddToCartButton/AddToCartButton'
 import PresetTextures from '../components/PresetTextures'
 import SugarFreeTextures from '../components/SugarFreeTextures'
@@ -12,6 +12,12 @@ import styles from './page.module.css'
 
 export default function Home() {
 	const [config, setConfig] = useState(DEFAULT_CONFIG)
+	const [isClient, setIsClient] = useState(false)
+
+	// Sätt isClient till true efter mount för att undvika hydration errors
+	useEffect(() => {
+		setIsClient(true)
+	}, [])
 
 	const getCurrentFlavor = () => {
 		if (!config.textureUrl) return null
@@ -42,6 +48,11 @@ export default function Home() {
 	}
 
 	const getFlavorName = () => {
+		// Returnera consistent värde på server och initialt på klient
+		if (!isClient) {
+			return 'Choose Your Flavor'
+		}
+
 		const currentFlavor = getCurrentFlavor()
 
 		if (!currentFlavor) {
@@ -54,6 +65,11 @@ export default function Home() {
 	}
 
 	const getFlavorText = (textKey) => {
+		// Returnera consistent värde på server och initialt på klient
+		if (!isClient) {
+			return 'Choose your flavor to see description'
+		}
+
 		const currentFlavor = getCurrentFlavor()
 		return (
 			currentFlavor?.text?.[textKey] || 'Choose your flavor to see description'
@@ -61,6 +77,10 @@ export default function Home() {
 	}
 
 	const getIngredients = () => {
+		if (!isClient) {
+			return []
+		}
+
 		const currentFlavor = getCurrentFlavor()
 		return currentFlavor?.ingredients || []
 	}
@@ -84,6 +104,11 @@ export default function Home() {
 	}
 
 	const getTitleStyle = () => {
+		// Returnera tomt objekt på server för consistent rendering
+		if (!isClient) {
+			return {}
+		}
+
 		const colors = getCurrentColors()
 		if (!colors) return {}
 
