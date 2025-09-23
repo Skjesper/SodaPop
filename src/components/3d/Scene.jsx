@@ -56,32 +56,23 @@ export default function Scene({ config }) {
 				{/* Ice circles - capa intermedia */}
 				{/* <IceCircles count={4} /> */}
 				{/* spin effect: Wrapper detect change textureUrl */}
-				<SpinTransition trigger={config.textureUrl}>
-					<Model
-						modelPath={config.modelPath}
-						color={config.color}
-						material={config.material}
-						textureUrl={config.textureUrl}
-						textureControls={config.textureControls}
-						showDebug={false}
-					/>
-				</SpinTransition>
+				<group rotation={[0, -Math.PI / 6, 0]}>
+					{' '}
+					{/* 30° till vänster */}
+					<SpinTransition trigger={config.textureUrl}>
+						<Model
+							modelPath={config.modelPath}
+							color={config.color}
+							material={config.material}
+							textureUrl={config.textureUrl}
+							textureControls={config.textureControls}
+							showDebug={false}
+						/>
+					</SpinTransition>
+				</group>
 				{/* Background from the "FruitFactrory"*/}
 				{/* <FruitBackground config={config} /> */}
 			</Suspense>
-
-			{/* Camera controls */}
-			<OrbitControls
-				enablePan={false}
-				enableZoom={true}
-				enableRotate={true}
-				minDistance={10}
-				maxDistance={100}
-				maxPolarAngle={Math.PI / 2}
-				target={[0, 0, 0]}
-				enableDamping={true}
-				dampingFactor={0.05}
-			/>
 		</>
 	)
 }

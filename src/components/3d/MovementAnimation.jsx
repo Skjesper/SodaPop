@@ -1,29 +1,27 @@
-import { useRef } from "react";
-import { useFrame } from "@react-three/fiber";
+import { useRef } from 'react'
+import { useFrame } from '@react-three/fiber'
 
-export default function MovementAnimation({ 
-  children, 
-  oscillation = 0.6,         
-  oscillationAmplitude = 0.8, 
-  floatSpeed = 1.5,      
-  floatAmplitude = 0.4,  
-  enabled = true 
+export default function MovementAnimation({
+	children,
+	rotationSpeed = 0.8, // Hastighet för oscillation
+	rotationAmplitude = Math.PI / 4, // 45 grader åt varje håll
+	floatSpeed = 1.5, // Hastighet för upp/ner rörelse
+	floatAmplitude = 0.4, // Amplitud för upp/ner rörelse
+	enabled = true
 }) {
-  const groupRef = useRef();
+	const groupRef = useRef()
 
-  useFrame((state) => {
-    if (groupRef.current && enabled) {
-      // Rotation in Y axis (left-right oscillation)
-      groupRef.current.rotation.y = Math.sin(state.clock.elapsedTime * oscillation) * oscillationAmplitude;
-      
-      // Float up and down
-      groupRef.current.position.y = Math.sin(state.clock.elapsedTime * floatSpeed) * floatAmplitude;
-    }
-  });
+	useFrame((state) => {
+		if (groupRef.current && enabled) {
+			// Oscillation mellan -90 och +90 grader rund Y-axel
+			groupRef.current.rotation.y =
+				Math.sin(state.clock.elapsedTime * rotationSpeed) * rotationAmplitude
 
-  return (
-    <group ref={groupRef}>
-      {children}
-    </group>
-  );
+			// Float up and down
+			groupRef.current.position.y =
+				Math.sin(state.clock.elapsedTime * floatSpeed) * floatAmplitude
+		}
+	})
+
+	return <group ref={groupRef}>{children}</group>
 }
