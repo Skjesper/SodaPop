@@ -18,7 +18,7 @@ function ModelFallback() {
 export default function Scene({ config, windowSize }) {
 	console.log('Scene received config:', config)
 
-	// Lights controls eacgh light intensity,Responsive lighting based on screen size, 
+	// Lights controls eacgh light intensity,Responsive lighting based on screen size,
 	const ambientIntensity = windowSize?.width < 768 ? 0.66 : 0.55
 	const mainLightIntensity = windowSize?.width < 768 ? 2.2 : 2.0
 
@@ -85,10 +85,10 @@ export default function Scene({ config, windowSize }) {
 			<Suspense fallback={<ModelFallback />}>
 				{/* Ice circles - capa intermedia */}
 				{/* <IceCircles count={4} /> */}
-				
+
 				{/* spin effect: Wrapper detect change textureUrl */}
 
-				<group rotation={[0, -Math.PI / 6, 0]}>
+				<group rotation={[0, Math.PI / 6, 0]}>
 					{' '}
 					{/* 30° till vänster */}
 					<SpinTransition trigger={config.textureUrl}>
@@ -105,7 +105,7 @@ export default function Scene({ config, windowSize }) {
 				{/* Background from the "FruitFactrory"*/}
 				{/* <FruitBackground config={config} /> */}
 			</Suspense>
-<OrbitControls
+			<OrbitControls
 				enablePan={windowSize?.width > 768}
 				enableZoom={true}
 				enableRotate={true}
@@ -118,7 +118,6 @@ export default function Scene({ config, windowSize }) {
 				rotateSpeed={windowSize?.width < 768 ? 0.8 : 1.0}
 				zoomSpeed={windowSize?.width < 768 ? 0.6 : 1.0}
 			/>
-
 		</>
 	)
 }
