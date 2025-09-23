@@ -1,5 +1,4 @@
-// AddToCartButton med CSS Custom Properties
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import styles from './addToCartButton.module.css'
 
 export default function AddToCartButton({
@@ -13,6 +12,12 @@ export default function AddToCartButton({
 	onAddToCart
 }) {
 	const [isClicked, setIsClicked] = useState(false)
+	const [isClient, setIsClient] = useState(false)
+
+	// Sätt isClient till true efter mount
+	useEffect(() => {
+		setIsClient(true)
+	}, [])
 
 	const handleAddToCart = () => {
 		setIsClicked(true)
@@ -26,20 +31,21 @@ export default function AddToCartButton({
 		}, clickDuration)
 	}
 
-	// Sätt CSS custom properties
-	const buttonStyle = flavorColors
-		? {
-				'--primary-color': flavorColors.primary,
-				'--secondary-color': flavorColors.secondary,
-				'--text-color': flavorColors.textColor || 'white',
-				'--shadow-color': flavorColors.primary + '40'
-		  }
-		: {}
+	// Sätt CSS custom properties - endast på klient för att undvika hydration
+	const buttonStyle =
+		isClient && flavorColors
+			? {
+					'--primary-color': flavorColors.primary,
+					'--secondary-color': flavorColors.secondary,
+					'--text-color': flavorColors.textColor || 'white',
+					'--shadow-color': flavorColors.primary + '40'
+			  }
+			: {}
 
 	return (
 		<button
 			className={`${styles.addToCartButton} ${
-				flavorColors ? styles.dynamic : styles.default
+				isClient && flavorColors ? styles.dynamic : styles.default
 			} ${isClicked ? styles.clicked : ''}`}
 			style={buttonStyle}
 			onClick={handleAddToCart}

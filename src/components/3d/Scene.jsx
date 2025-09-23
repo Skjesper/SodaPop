@@ -1,5 +1,7 @@
+'use client'
+
+import { Suspense, useState, useEffect } from 'react'
 import { OrbitControls } from '@react-three/drei'
-import { Suspense } from 'react'
 import Model from './Model'
 import SpinTransition from './SpinTransition'
 import FruitBackground from './FruitBackground'
@@ -18,19 +20,54 @@ function ModelFallback() {
 export default function Scene({ config, windowSize }) {
 	console.log('Scene received config:', config)
 
-	// Lights controls eacgh light intensity,Responsive lighting based on screen size,
-	const ambientIntensity = windowSize?.width < 768 ? 0.66 : 0.55
-	const mainLightIntensity = windowSize?.width < 768 ? 2.2 : 2.0
+	// State för att hantera hydration
+	const [isClient, setIsClient] = useState(false)
+	const [lightIntensity, setLightIntensity] = useState({
+		ambient: 0.55,
+		main: 2.0
+	})
+	const [controlSettings, setControlSettings] = useState({
+		enablePan: false,
+		minDistance: 10,
+		maxDistance: 100,
+		rotateSpeed: 1.0,
+		zoomSpeed: 1.0
+	})
+
+	// Sätt isClient till true efter mount för att undvika hydration errors
+	useEffect(() => {
+		setIsClient(true)
+	}, [])
+
+	// Uppdatera ljus och kontroller baserat på windowSize efter hydration
+	useEffect(() => {
+		if (isClient && windowSize) {
+			const isMobile = windowSize.width < 768
+
+			setLightIntensity({
+				ambient: isMobile ? 0.66 : 0.55,
+				main: isMobile ? 2.2 : 2.0
+			})
+
+			setControlSettings({
+				enablePan: !isMobile,
+				minDistance: isMobile ? 15 : 10,
+				maxDistance: isMobile ? 120 : 100,
+				rotateSpeed: isMobile ? 0.8 : 1.0,
+				zoomSpeed: isMobile ? 0.6 : 1.0
+			})
+		}
+	}, [isClient, windowSize])
 
 	return (
 		<>
 			{/* Improved Ambient Light - Increased for darker metallic materials */}
-			<ambientLight intensity={ambientIntensity} color="#ffffff" />
+			<ambientLight intensity={lightIntensity.ambient} color="#ffffff" />
 
 			{/* Main directional light -new intensity*/}
 			<directionalLight
 				position={[5, 5, 5]}
-				intensity={mainLightIntensity}
+				intensity={lightIntensity.main}
 				castShadow
 				shadow-mapSize-width={2048}
 				shadow-mapSize-height={2048}
@@ -87,7 +124,6 @@ export default function Scene({ config, windowSize }) {
 				{/* <IceCircles count={4} /> */}
 
 				{/* spin effect: Wrapper detect change textureUrl */}
-
 				<group rotation={[0, Math.PI / 6, 0]}>
 					{' '}
 					{/* 30° till vänster */}
@@ -102,22 +138,26 @@ export default function Scene({ config, windowSize }) {
 						/>
 					</SpinTransition>
 				</group>
-				{/* Background from the "FruitFactrory"*/}
+				{/* Background from the "FruitFactory"*/}
 				{/* <FruitBackground config={config} /> */}
 			</Suspense>
-			<OrbitControls
-				enablePan={windowSize?.width > 768}
-				enableZoom={true}
-				enableRotate={true}
-				minDistance={windowSize?.width < 768 ? 15 : 10}
-				maxDistance={windowSize?.width < 768 ? 120 : 100}
-				maxPolarAngle={Math.PI / 2}
-				target={[0, 0, 0]}
-				enableDamping={true}
-				dampingFactor={0.05}
-				rotateSpeed={windowSize?.width < 768 ? 0.8 : 1.0}
-				zoomSpeed={windowSize?.width < 768 ? 0.6 : 1.0}
-			/>
+
+			{/* Rendera OrbitControls endast på client-side för att undvika hydration errors */}
+			{isClient && (
+				<OrbitControls
+					enablePan={controlSettings.enablePan}
+					enableZoom={true}
+					enableRotate={true}
+					minDistance={controlSettings.minDistance}
+					maxDistance={controlSettings.maxDistance}
+					maxPolarAngle={Math.PI / 2}
+					target={[0, 0, 0]}
+					enableDamping={true}
+					dampingFactor={0.05}
+					rotateSpeed={controlSettings.rotateSpeed}
+					zoomSpeed={controlSettings.zoomSpeed}
+				/>
+			)}
 		</>
 	)
 }
