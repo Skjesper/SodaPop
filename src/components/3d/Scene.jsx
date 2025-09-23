@@ -34,12 +34,10 @@ export default function Scene({ config, windowSize }) {
 		zoomSpeed: 1.0
 	})
 
-	// Sätt isClient till true efter mount för att undvika hydration errors
 	useEffect(() => {
 		setIsClient(true)
 	}, [])
 
-	// Uppdatera ljus och kontroller baserat på windowSize efter hydration
 	useEffect(() => {
 		if (isClient && windowSize) {
 			const isMobile = windowSize.width < 768

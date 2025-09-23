@@ -3,8 +3,7 @@ import { useFrame } from '@react-three/fiber'
 
 export default function MovementAnimation({
 	children,
-	rotationSpeed = 0.8, // Hastighet för oscillation
-	rotationAmplitude = Math.PI / 4, // 45 grader åt varje håll
+	rotationSpeed = 0.8, // Hastighet för rotation
 	floatSpeed = 1.5, // Hastighet för upp/ner rörelse
 	floatAmplitude = 0.4, // Amplitud för upp/ner rörelse
 	enabled = true
@@ -13,9 +12,8 @@ export default function MovementAnimation({
 
 	useFrame((state) => {
 		if (groupRef.current && enabled) {
-			// Oscillation mellan -90 och +90 grader rund Y-axel
-			groupRef.current.rotation.y =
-				Math.sin(state.clock.elapsedTime * rotationSpeed) * rotationAmplitude
+			// Kontinuerlig 360 graders rotation runt Y-axel
+			groupRef.current.rotation.y = state.clock.elapsedTime * rotationSpeed
 
 			// Float up and down
 			groupRef.current.position.y =
