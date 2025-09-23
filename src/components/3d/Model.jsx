@@ -180,13 +180,15 @@ export default function Model({
 						: [0, 0, 0]
 				}
 			>
-				<MovementAnimation rotationSpeed={0.5} floatAmplitude={0.4}>
-					<primitive
-						object={clonedScene}
-						position={[0, 0, 0]}
-						scale={[10, 10, 10]}
-					/>
-				</MovementAnimation>
+				<group rotation={[0, 0, Math.PI / 6]}>
+					<MovementAnimation rotationSpeed={0.5} floatAmplitude={0.4}>
+						<primitive
+							object={clonedScene}
+							position={[0, 0, 0]}
+							scale={[7, 7, 7]}
+						/>
+					</MovementAnimation>
+				</group>
 			</group>
 		</group>
 	)
