@@ -1,88 +1,94 @@
 .container {
-	display: flex;
-	height: 100vh;
-	overflow: hidden;
+  display: flex;
+  height: 100vh;
+  overflow: hidden;
 }
 
 .leftContent {
-	width: 60%;
-	flex-shrink: 0;
+  width: 60%;
+  flex-shrink: 0;
 }
 
 .rightContent {
-	width: 40%;
-	flex-shrink: 0;
-	justify-content: center;
-	align-items: flex-start;
-	display: flex;
-	padding-top: 2rem;
-	background-color: white;
-	overflow-y: scroll;
-	padding-bottom: 2rem;
+  width: 40%;
+  flex-shrink: 0;
+  justify-content: center;
+  align-items: flex-start;
+  display: flex;
+  padding-top: 2rem;
+  background-color: white;
+  overflow-y: scroll;
+  padding-bottom: 2rem;
 }
 
 .rightContentWrapper {
-	width: 80%;
-	display: flex;
-	justify-content: center;
-	flex-direction: column;
-	gap: 1rem;
-	/* min-height: calc(100vh - 100px); */
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  gap: 1rem;
+  /* min-height: calc(100vh - 100px); */
 }
 
 .rightContentInner {
-	width: 100%;
-	display: flex;
-	flex-direction: column;
-	align-items: center;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
 
 .configuratorWrapper {
-	width: 100%;
-	height: 100%;
-	position: relative;
+  width: 100%;
+  height: 100%;
+  position: relative;
 }
 
 .title {
-	font-family: var(--font-dyna-puff);
+  font-family: var(--font-dyna-puff);
 }
 
 .flavourTitle {
-	font-size: 1.5rem;
-	color: var(--background);
+  font-size: 1.5rem;
+  color: var(--background);
 }
 
 .sugarFreeTitle {
-	font-size: 1.5rem;
-	color: var(--background);
+  font-size: 1.5rem;
+  color: var(--background);
+}
+
+.customTextTitle {
+  font-size: 1.5rem;
+  color: var(--background);
+  margin-top: 1rem;
 }
 
 .infoText {
-	color: var(--background);
-	margin-top: 0.75rem;
+  color: var(--background);
+  margin-top: 0.75rem;
 }
 
 @media (max-width: 768px) {
-	.container {
-		flex-direction: column;
-		height: 100vh;
-		overflow: hidden;
-	}
+  .container {
+    flex-direction: column;
+    height: 100vh;
+    overflow: hidden;
+  }
 
-	.leftContent {
-		width: 100%;
-		height: 50vh;
-		min-height: 300px;
-	}
+  .leftContent {
+    width: 100%;
+    height: 50vh;
+    min-height: 300px;
+  }
 
-	.rightContent {
-		width: 100%;
-		height: 50vh;
-		overflow-y: scroll;
-		padding-top: 1rem;
-	}
+  .rightContent {
+    width: 100%;
+    height: 50vh;
+    overflow-y: scroll;
+    padding-top: 1rem;
+  }
 
-	.rightContentWrapper {
-		width: 90%;
-	}
+  .rightContentWrapper {
+    width: 90%;
+  }
 }

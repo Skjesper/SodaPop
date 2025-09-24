@@ -1,119 +1,119 @@
 export const CONFIG_OPTIONS = {
-	models: {
-		base: '/frolig1.glb',
-		variant1: '/assets/models/product-variant-1.gltf',
-		variant2: '/assets/models/product-variant-2.gltf'
-	},
+  models: {
+    base: "/frolig1.glb",
+    variant1: "/assets/models/product-variant-1.gltf",
+    variant2: "/assets/models/product-variant-2.gltf",
+  },
 
-	// NEW: Fruit model configuration
-	fruitModels: {
-		strawberry: {
-			modelPath: '/assets/fruitModels/strawberry/scene.gltf',
-			texturePath:
-				'/assets/fruitModels/strawberry/textures/MORANGO_diffuse.jpeg'
-		}
-		// Future fruits can be added here:
-		// blueberry: {
-		//   modelPath: '/assets/fruitModels/blueberry/scene.gltf',
-		//   texturePath: '/assets/fruitModels/blueberry/textures/blueberry_diffuse.jpeg'
-		// }
-	},
+  // NEW: Fruit model configuration
+  fruitModels: {
+    strawberry: {
+      modelPath: "/assets/fruitModels/strawberry/scene.gltf",
+      texturePath:
+        "/assets/fruitModels/strawberry/textures/MORANGO_diffuse.jpeg",
+    },
+    // Future fruits can be added here:
+    // blueberry: {
+    //   modelPath: '/assets/fruitModels/blueberry/scene.gltf',
+    //   texturePath: '/assets/fruitModels/blueberry/textures/blueberry_diffuse.jpeg'
+    // }
+  },
 
-	colors: {
-		red: '#ff4444',
-		blue: '#4444ff',
-		green: '#44ff44',
-		black: '#222222',
-		white: '#ffffff01',
-		orange: '#ff8844',
-		purple: '#8844ff',
-		yellow: '#ffff44'
-	},
-	materials: {
-		matte: {
-			roughness: 0.8,
-			metalness: 0.1,
-			name: 'Matte'
-		},
-		glossy: {
-			roughness: 0.2,
-			metalness: 0.1,
-			name: 'Glossy'
-		},
-		metallic: {
-			roughness: 0.3,
-			metalness: 0.9,
-			name: 'Metallic'
-		},
-		plastic: {
-			roughness: 0.4,
-			metalness: 0.0,
-			name: 'Plastic'
-		}
-	},
-	textures: {
-		// Regular variants (bas-smaker)
-		blueberryMint: '/assets/textures/Label_BlueberryMint.png',
-		orangeYuzu: '/assets/textures/Label_OrangeYuzu.png',
-		limeExplosion: '/assets/textures/Label_LimeExplosion.png',
-		strawberryPunch: '/assets/textures/Label_StrawberryPunch.png',
+  colors: {
+    red: "#ff4444",
+    blue: "#4444ff",
+    green: "#44ff44",
+    black: "#222222",
+    white: "#ffffff01",
+    orange: "#ff8844",
+    purple: "#8844ff",
+    yellow: "#ffff44",
+  },
+  materials: {
+    matte: {
+      roughness: 0.8,
+      metalness: 0.1,
+      name: "Matte",
+    },
+    glossy: {
+      roughness: 0.2,
+      metalness: 0.1,
+      name: "Glossy",
+    },
+    metallic: {
+      roughness: 0.3,
+      metalness: 0.9,
+      name: "Metallic",
+    },
+    plastic: {
+      roughness: 0.4,
+      metalness: 0.0,
+      name: "Plastic",
+    },
+  },
+  textures: {
+    // Regular variants (bas-smaker)
+    blueberryMint: "/assets/textures/Label_BlueberryMint.png",
+    orangeYuzu: "/assets/textures/Label_OrangeYuzu.png",
+    limeExplosion: "/assets/textures/Label_LimeExplosion.png",
+    strawberryPunch: "/assets/textures/Label_StrawberryPunch.png",
 
-		// Sugar Free variants
-		blueberryMintSugarFree:
-			'/assets/textures/Label_BlueberryMint-Sugarfree.png',
-		orangeYuzuSugarFree: '/assets/textures/Label_OrangeYuzu-Sugarfree.png',
-		limeExplosionSugarFree:
-			'/assets/textures/Label_LimeExplosion-Sugarfree.png',
-		strawberryPunchSugarFree:
-			'/assets/textures/Label_StrawberryPunch-Sugarfree.png'
-	},
-	backgroundImages: {
-		// Regular variants
-		blueberry: '/assets/fruitBackground/Background_BlueberryMint.png',
-		yuzu: '/assets/fruitBackground/Background_OrangeYuzu.png',
-		lime: '/assets/fruitBackground/Background_LimeExplosion.png',
-		strawberry: '/assets/fruitBackground/Background_StrawberryPunch.png',
+    // Sugar Free variants
+    blueberryMintSugarFree:
+      "/assets/textures/Label_BlueberryMint-Sugarfree.png",
+    orangeYuzuSugarFree: "/assets/textures/Label_OrangeYuzu-Sugarfree.png",
+    limeExplosionSugarFree:
+      "/assets/textures/Label_LimeExplosion-Sugarfree.png",
+    strawberryPunchSugarFree:
+      "/assets/textures/Label_StrawberryPunch-Sugarfree.png",
+  },
+  backgroundImages: {
+    // Regular variants
+    blueberry: "/assets/fruitBackground/Background_BlueberryMint.png",
+    yuzu: "/assets/fruitBackground/Background_OrangeYuzu.png",
+    lime: "/assets/fruitBackground/Background_LimeExplosion.png",
+    strawberry: "/assets/fruitBackground/Background_StrawberryPunch.png",
 
-		// Zero variants
-		blueberryZero:
-			'/assets/fruitBackground/Background_BlueberryMint-Sugarfree.png',
-		yuzuZero: '/assets/fruitBackground/Background_OrangeYuzu-Sugarfree.png',
-		limeZero: '/assets/fruitBackground/Background_LimeExplosion-Sugarfree.png',
-		strawberryZero:
-			'/assets/fruitBackground/Background_StrawberryPunch-Sugarfree.png'
-	},
+    // Zero variants
+    blueberryZero:
+      "/assets/fruitBackground/Background_BlueberryMint-Sugarfree.png",
+    yuzuZero: "/assets/fruitBackground/Background_OrangeYuzu-Sugarfree.png",
+    limeZero: "/assets/fruitBackground/Background_LimeExplosion-Sugarfree.png",
+    strawberryZero:
+      "/assets/fruitBackground/Background_StrawberryPunch-Sugarfree.png",
+  },
 
-	flavorColors: {
-		strawberry: '#fe3944',
-		yuzu: '#fe8a26',
-		blueberry: '#51a3d9',
-		lime: '#83c846',
-		strawberryZero: '#d1000c',
-		yuzuZero: '#ffbd37',
-		blueberryZero: '#056db2',
-		limeZero: '#40790e'
-	}
-}
+  flavorColors: {
+    strawberry: "#fe3944",
+    yuzu: "#fe8a26",
+    blueberry: "#51a3d9",
+    lime: "#83c846",
+    strawberryZero: "#d1000c",
+    yuzuZero: "#ffbd37",
+    blueberryZero: "#056db2",
+    limeZero: "#40790e",
+  },
+};
 
-// Hämta första texturen som default istället för random
 const getFirstTexture = () => {
-	const textureKeys = Object.keys(CONFIG_OPTIONS.textures)
-	const firstTextureKey = textureKeys[0] // 'blueberryMint'
-	return CONFIG_OPTIONS.textures[firstTextureKey]
-}
+  const textureKeys = Object.keys(CONFIG_OPTIONS.textures);
+  const firstTextureKey = textureKeys[0]; // 'blueberryMint'
+  return CONFIG_OPTIONS.textures[firstTextureKey];
+};
 
 export const DEFAULT_CONFIG = {
-	modelPath: CONFIG_OPTIONS.models.base,
-	color: CONFIG_OPTIONS.colors.red,
-	material: CONFIG_OPTIONS.materials.matte,
-	textureUrl: getFirstTexture(), // Nu används första texturen konsekvent
-	textureControls: {
-		repeatX: 1,
-		repeatY: 1,
-		offsetX: 0,
-		offsetY: 0,
-		flipX: false,
-		flipY: false,
-		useColorTint: false
-	}
-}
+  modelPath: CONFIG_OPTIONS.models.base,
+  color: CONFIG_OPTIONS.colors.red,
+  material: CONFIG_OPTIONS.materials.matte,
+  textureUrl: getFirstTexture(),
+  customText: "",
+  textureControls: {
+    repeatX: 1,
+    repeatY: 1,
+    offsetX: 0,
+    offsetY: 0,
+    flipX: false,
+    flipY: false,
+    useColorTint: false,
+  },
+};
