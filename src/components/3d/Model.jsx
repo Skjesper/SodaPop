@@ -4,6 +4,7 @@ import { useGLTF } from '@react-three/drei'
 import * as THREE from 'three'
 
 import { useOptionalTexture } from './../../hooks/useOptionalTexture'
+import useWindowSize from '../../hooks/useWindowSize' //Size scale Mobile
 import MovementAnimation from './MovementAnimation'
 
 // Fallback component if model fails to load
@@ -26,6 +27,7 @@ export default function Model({
 	textureUrl,
 	textureControls
 }) {
+	const { isMobile } = useWindowSize()//Size scale Mobile
 	const groupRef = useRef()
 	const [modelError, setModelError] = useState(false)
 	const [isLoading, setIsLoading] = useState(true)
@@ -184,7 +186,7 @@ export default function Model({
 					<primitive
 						object={clonedScene}
 						position={[0, 0, 0]}
-						scale={[10, 10, 10]}
+						scale={isMobile ? [2.8, 2.8, 2.8] : [7, 7, 7]} //Size scale Mobile
 					/>
 				</MovementAnimation>
 			</group>

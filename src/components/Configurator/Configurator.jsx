@@ -7,8 +7,11 @@ import LoadingFallback from '../3d/LoadingFallback'
 import { CONFIG_OPTIONS } from '../../config/modelConfig'
 import styles from './configurator.module.css'
 import { DEFAULT_CONFIG } from '../../config/modelConfig'
+import useWindowSize from '../../hooks/useWindowSize'
 
 export default function Configurator({ config, setConfig }) {
+	const { windowSize } = useWindowSize()
+
 	const getBackgroundForTexture = () => {
 		if (!config.textureUrl) {
 			return '#ff0080'
@@ -97,7 +100,7 @@ export default function Configurator({ config, setConfig }) {
 				className={styles.canvasContainer}
 			>
 				<Suspense fallback={<LoadingFallback />}>
-					<Scene config={config} />
+					<Scene config={config} windowSize={windowSize} />
 				</Suspense>
 			</Canvas>
 
