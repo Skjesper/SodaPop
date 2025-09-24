@@ -12,6 +12,7 @@ const dynaPuff = DynaPuff({
 	weight: ['400', '500', '600', '700'], // Kolla vilka weights som finns för DynaPuff
 	variable: '--font-dynapuff'
 })
+
 export const metadata = {
 	title: '3D Configurator App',
 	description:
@@ -21,7 +22,6 @@ export const metadata = {
 export default function RootLayout({ children }) {
 	return (
 		<html lang="en">
-			<head></head>
 			<body className={`${dmSans.variable} ${dynaPuff.variable}`}>
 				{children}
 			</body>
