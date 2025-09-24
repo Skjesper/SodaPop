@@ -5,7 +5,7 @@ export default function TextInput({
   value = "",
   onChange,
   placeholder = "Enter custom text...",
-  maxLength = 15,
+  maxLength = 20,
   flavorColors = null,
 }) {
   const [isClient, setIsClient] = useState(false);
