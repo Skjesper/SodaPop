@@ -1,6 +1,6 @@
 'use client'
 
-import { Suspense, useState, useEffect } from 'react'
+import { Suspense, useState, useEffect, useRef } from 'react'
 import { OrbitControls } from '@react-three/drei'
 import Model from './Model'
 import SpinTransition from './SpinTransition'
@@ -20,6 +20,9 @@ function ModelFallback() {
 export default function Scene({ config, windowSize }) {
 	console.log('Scene received config:', config)
 
+	// Ref för OrbitControls
+	const controlsRef = useRef()
+
 	// State för att hantera hydration
 	const [isClient, setIsClient] = useState(false)
 	const [lightIntensity, setLightIntensity] = useState({
@@ -33,6 +36,9 @@ export default function Scene({ config, windowSize }) {
 		rotateSpeed: 1.0,
 		zoomSpeed: 1.0
 	})
+
+	// Håll koll på tidigare textureUrl för att detecta ändringar
+	const prevTextureUrl = useRef(config.textureUrl)
 
 	useEffect(() => {
 		setIsClient(true)
@@ -56,6 +62,17 @@ export default function Scene({ config, windowSize }) {
 			})
 		}
 	}, [isClient, windowSize])
+
+	useEffect(() => {
+		if (
+			isClient &&
+			controlsRef.current &&
+			prevTextureUrl.current !== config.textureUrl
+		) {
+			controlsRef.current.reset()
+			prevTextureUrl.current = config.textureUrl
+		}
+	}, [config.textureUrl, isClient])
 
 	return (
 		<>
@@ -143,6 +160,7 @@ export default function Scene({ config, windowSize }) {
 			{/* Rendera OrbitControls endast på client-side för att undvika hydration errors */}
 			{isClient && (
 				<OrbitControls
+					ref={controlsRef}
 					enablePan={controlSettings.enablePan}
 					enableZoom={true}
 					enableRotate={true}
