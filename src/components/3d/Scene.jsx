@@ -4,18 +4,8 @@ import { Suspense, useState, useEffect, useRef } from "react";
 import { OrbitControls } from "@react-three/drei";
 import Model from "./Model";
 import SpinTransition from "./SpinTransition";
-import FruitBackground from "./FruitBackground";
-import IceCircles from "./IceCircles";
-
-// Simple fallback component
-function ModelFallback() {
-  return (
-    <mesh position={[0, 0, 0]} castShadow receiveShadow>
-      <cylinderGeometry args={[1, 1, 3, 8]} />
-      <meshStandardMaterial color="#ff4444" />
-    </mesh>
-  );
-}
+// import FruitBackground from "./FruitBackground";
+// import IceCircles from "./IceCircles";
 
 export default function Scene({ config, windowSize }) {
   console.log("Scene received config:", config);
@@ -133,14 +123,13 @@ export default function Scene({ config, windowSize }) {
         color="#ddd6fe"
       />
 
-      {/* Model with Suspense fallback */}
-      <Suspense fallback={<ModelFallback />}>
+      {/* Model with Suspense */}
+      <Suspense fallback={null}>
         {/* Ice circles - capa intermedia */}
         {/* <IceCircles count={4} /> */}
 
         {/* spin effect: Wrapper detect change textureUrl */}
         <group rotation={[0, Math.PI / 6, 0]}>
-          {" "}
           {/* 30° till vänster */}
           <SpinTransition trigger={config.textureUrl}>
             <Model
