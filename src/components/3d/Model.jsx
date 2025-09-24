@@ -38,15 +38,15 @@ export default function Model({
   // Stable text options - useMemo to prevent recreation on every render
   const textOptions = useMemo(
     () => ({
-      fontSize: 48,
-      fontFamily: "Arial, sans-serif",
-      fontWeight: "bold",
-      color: "#ff0000", // Bright red for testing
-      strokeColor: "#ffffff", // White outline
-      strokeWidth: 4, // Thicker outline
-      x: 0.5, // Center horizontally
-      y: 0.2, // A bit lower
-      maxWidth: 0.8,
+      fontSize: 150,
+      fontFamily: "Pacifico, cursive",
+      fontWeight: "",
+      color: "#e8e8e8", // Bright red for testing
+      strokeColor: "#b2b2b2", // White outline
+      strokeWidth: 9, // Thicker outline
+      x: 0.25, // Center horizontally
+      y: 0.09, // A bit lower
+      maxWidth: 1,
       textAlign: "center",
     }),
     []

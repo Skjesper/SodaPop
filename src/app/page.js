@@ -150,7 +150,7 @@ export default function Home() {
                 value={config.customText}
                 onChange={handleTextChange}
                 placeholder="Enter text for your can..."
-                maxLength={15}
+                maxLength={20}
                 flavorColors={getCurrentColors()}
               />
 
