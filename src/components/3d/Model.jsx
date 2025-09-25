@@ -6,7 +6,6 @@ import * as THREE from "three";
 import { useTexturedCanvas } from "./../../hooks/useTexturedCanvas";
 import MovementAnimation from "./MovementAnimation";
 
-// Fallback component if model fails to load
 function ModelFallback({ color, material }) {
   return (
     <mesh position={[0, 0, 0]} castShadow receiveShadow>
@@ -25,36 +24,55 @@ export default function Model({
   material,
   textureUrl,
   textureControls,
-  customText = "", // Custom text for baking into texture
+  customText = "",
 }) {
   const groupRef = useRef();
+  const visibleGroupRef = useRef();
   const [modelError, setModelError] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [boundingBox, setBoundingBox] = useState(null);
+  const [showModel, setShowModel] = useState(false);
 
-  // Load the GLB model
+  const [animationScale, setAnimationScale] = useState(0);
+
   const gltf = useGLTF("/frolig1.glb");
 
-  // Stable text options - useMemo to prevent recreation on every render
   const textOptions = useMemo(
     () => ({
       fontSize: 150,
       fontFamily: "Pacifico, cursive",
       fontWeight: "",
-      color: "#e8e8e8", // Bright red for testing
-      strokeColor: "#b2b2b2", // White outline
-      strokeWidth: 9, // Thicker outline
-      x: 0.25, // Center horizontally
-      y: 0.09, // A bit lower
+      color: "#e8e8e8",
+      strokeColor: "#b2b2b2",
+      strokeWidth: 9,
+      x: 0.25,
+      y: 0.09,
       maxWidth: 1,
       textAlign: "center",
     }),
     []
-  ); // Empty dependency array - these options are static
+  );
 
-  // Use texture baking hook with stable options
   const { texture: combinedTexture, isLoading: textureLoading } =
     useTexturedCanvas(textureUrl, customText, textOptions);
+
+  useFrame((state, delta) => {
+    if (showModel && visibleGroupRef.current) {
+      const targetScale = 1;
+      const animationSpeed = 4;
+
+      if (animationScale < targetScale) {
+        const newScale = Math.min(
+          targetScale,
+          animationScale + delta * animationSpeed
+        );
+        setAnimationScale(newScale);
+
+        const easedScale = 1 - Math.pow(1 - newScale, 3);
+        visibleGroupRef.current.scale.setScalar(easedScale);
+      }
+    }
+  });
 
   // Handle loading timeout
   useEffect(() => {
@@ -72,7 +90,6 @@ export default function Model({
     return () => clearTimeout(timeout);
   }, [gltf?.scene]);
 
-  // Show loading fallback during initial load
   if (isLoading && !gltf?.scene) {
     return (
       <ModelFallback
@@ -82,129 +99,162 @@ export default function Model({
     );
   }
 
-  // If model failed to load, show fallback
   if (modelError || !gltf?.scene) {
     return <ModelFallback color={color} material={material} />;
   }
 
-  // Clone the scene to avoid modifying the original
   const clonedScene = gltf.scene.clone();
+  const visibleClonedScene = gltf.scene.clone();
 
-  // Calculate bounding box for auto-centering (only once)
   useEffect(() => {
     if (clonedScene && groupRef.current && !boundingBox) {
       const timer = setTimeout(() => {
-        const box = new THREE.Box3().setFromObject(groupRef.current);
-        const center = box.getCenter(new THREE.Vector3());
-        const size = box.getSize(new THREE.Vector3());
+        try {
+          const box = new THREE.Box3().setFromObject(groupRef.current);
+          const center = box.getCenter(new THREE.Vector3());
+          const size = box.getSize(new THREE.Vector3());
 
-        setBoundingBox({
-          center: { x: center.x, y: center.y, z: center.z },
-          size: { x: size.x, y: size.y, z: size.z },
-        });
+          const newBoundingBox = {
+            center: { x: center.x, y: center.y, z: center.z },
+            size: { x: size.x, y: size.y, z: size.z },
+          };
+
+          setBoundingBox(newBoundingBox);
+
+          setTimeout(() => {
+            setShowModel(true);
+            setAnimationScale(0.01);
+          }, 50);
+        } catch (error) {
+          console.error("Error calculating bounding box:", error);
+          setShowModel(true);
+          setAnimationScale(0.01);
+        }
       }, 100);
 
       return () => clearTimeout(timer);
     }
   }, [clonedScene, boundingBox]);
 
-  // Apply materials to different parts
   useEffect(() => {
-    if (clonedScene) {
-      clonedScene.traverse((child) => {
-        if (child.isMesh) {
-          const meshName = child.name.toLowerCase();
+    [clonedScene, visibleClonedScene].forEach((scene) => {
+      if (scene) {
+        scene.traverse((child) => {
+          if (child.isMesh) {
+            const meshName = child.name.toLowerCase();
 
-          if (meshName === "cylinder006_1") {
-            // Main body - use combined texture (base + custom text)
-            let bodyTexture = null;
-            if (combinedTexture && child.geometry.attributes.uv) {
-              bodyTexture = combinedTexture.clone();
-              bodyTexture.wrapS = THREE.RepeatWrapping;
-              bodyTexture.wrapT = THREE.RepeatWrapping;
+            if (meshName === "cylinder006_1") {
+              let bodyTexture = null;
+              if (combinedTexture && child.geometry.attributes.uv) {
+                bodyTexture = combinedTexture.clone();
+                bodyTexture.wrapS = THREE.RepeatWrapping;
+                bodyTexture.wrapT = THREE.RepeatWrapping;
 
-              bodyTexture.center.set(0.5, 0.5);
-              bodyTexture.rotation = 0;
+                bodyTexture.center.set(0.5, 0.5);
+                bodyTexture.rotation = 0;
 
-              // Apply user controls normally
-              const repeatX = textureControls?.flipX
-                ? -textureControls.repeatX
-                : textureControls?.repeatX || 1;
-              const repeatY = textureControls?.flipY
-                ? -textureControls.repeatY
-                : textureControls?.repeatY || 1;
+                const repeatX = textureControls?.flipX
+                  ? -textureControls.repeatX
+                  : textureControls?.repeatX || 1;
+                const repeatY = textureControls?.flipY
+                  ? -textureControls.repeatY
+                  : textureControls?.repeatY || 1;
 
-              bodyTexture.repeat.set(repeatX, repeatY);
-              bodyTexture.offset.set(
-                textureControls?.offsetX || 0,
-                textureControls?.offsetY || 0
-              );
+                bodyTexture.repeat.set(repeatX, repeatY);
+                bodyTexture.offset.set(
+                  textureControls?.offsetX || 0,
+                  textureControls?.offsetY || 0
+                );
 
-              bodyTexture.flipY = false;
+                bodyTexture.flipY = false;
+              }
+
+              child.material = new THREE.MeshStandardMaterial({
+                color: textureControls?.useColorTint ? color : "#ffffff",
+                roughness: 0.2,
+                metalness: 0.1,
+                map: bodyTexture,
+              });
+            } else if (meshName === "cylinder006") {
+              child.material = new THREE.MeshStandardMaterial({
+                color: "#ffffff",
+                roughness: 0.5,
+                metalness: 1.6,
+              });
+            } else if (meshName === "opener") {
+              child.material = new THREE.MeshStandardMaterial({
+                color: "#dcdcdc",
+                roughness: 0.3,
+                metalness: 0.9,
+              });
+            } else {
+              child.material = new THREE.MeshStandardMaterial({
+                color: "#cdcdcd",
+                roughness: 0.3,
+                metalness: 0.9,
+              });
             }
 
-            child.material = new THREE.MeshStandardMaterial({
-              color: textureControls?.useColorTint ? color : "#ffffff",
-              roughness: 0.2,
-              metalness: 0.1,
-              map: bodyTexture,
-            });
-          } else if (meshName === "cylinder006") {
-            // Glossy material
-            child.material = new THREE.MeshStandardMaterial({
-              color: "#ffffff",
-              roughness: 0.5,
-              metalness: 1.6,
-            });
-          } else if (meshName === "opener") {
-            // Metallic material
-            child.material = new THREE.MeshStandardMaterial({
-              color: "#dcdcdc",
-              roughness: 0.3,
-              metalness: 0.9,
-            });
-          } else {
-            // Default metallic for any other parts
-            child.material = new THREE.MeshStandardMaterial({
-              color: "#cdcdcd",
-              roughness: 0.3,
-              metalness: 0.9,
-            });
+            child.castShadow = true;
+            child.receiveShadow = true;
           }
-
-          child.castShadow = true;
-          child.receiveShadow = true;
-        }
-      });
-    }
-  }, [clonedScene, color, material, combinedTexture, textureControls]);
+        });
+      }
+    });
+  }, [
+    clonedScene,
+    visibleClonedScene,
+    color,
+    material,
+    combinedTexture,
+    textureControls,
+  ]);
 
   return (
-    <group ref={groupRef}>
-      <group
-        position={
-          boundingBox
-            ? [
-                -boundingBox.center.x,
-                -boundingBox.center.y,
-                -boundingBox.center.z,
-              ]
-            : [0, 0, 0]
-        }
-      >
-        <group rotation={[0, 0, Math.PI / 6]}>
-          <MovementAnimation rotationSpeed={0.5} floatAmplitude={0.4}>
-            <primitive
-              object={clonedScene}
-              position={[0, 0, 0]}
-              scale={[7, 7, 7]}
-            />
-          </MovementAnimation>
+    <>
+      <group ref={groupRef}>
+        <group position={[0, 0, 0]}>
+          <group rotation={[0, 0, Math.PI / 6]}>
+            <MovementAnimation rotationSpeed={0.5} floatAmplitude={0.4}>
+              <primitive
+                object={clonedScene}
+                position={[0, 0, 0]}
+                scale={[7, 7, 7]}
+                visible={false}
+              />
+            </MovementAnimation>
+          </group>
         </group>
       </group>
-    </group>
+
+      {/* Visible model with scale animation */}
+      {showModel && (
+        <group ref={visibleGroupRef} scale={[0, 0, 0]}>
+          <group
+            position={
+              boundingBox
+                ? [
+                    -boundingBox.center.x,
+                    -boundingBox.center.y,
+                    -boundingBox.center.z,
+                  ]
+                : [0, 0, 0]
+            }
+          >
+            <group rotation={[0, 0, Math.PI / 6]}>
+              <MovementAnimation rotationSpeed={0.5} floatAmplitude={0.4}>
+                <primitive
+                  object={visibleClonedScene}
+                  position={[0, 0, 0]}
+                  scale={[7, 7, 7]}
+                />
+              </MovementAnimation>
+            </group>
+          </group>
+        </group>
+      )}
+    </>
   );
 }
 
-// Preload the GLB model
 useGLTF.preload("/frolig1.glb");
