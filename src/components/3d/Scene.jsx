@@ -79,26 +79,22 @@ export default function Scene({ config, windowSize }) {
 			/>
 
 			{/* Back lighting - NEW for dark rear areas */}
-			<directionalLight
-				position={[-5, 3, -3]}
-				intensity={1.0}
-				color="#ffffff"
-			/>
-			<directionalLight
-				position={[0, -3, -5]}
-				intensity={0.8}
-				color="#f8f9fa"
-			/>
+			<directionalLight position={[-5, 3, -3]} intensity={1.4} color="#ffffff"/>
+			<directionalLight position={[0, -3, -5]} intensity={0.8} color="#f8f9fa"/>
 
 			{/* Boosted Fill lights for better illumination */}
 			<pointLight position={[-5, 5, 5]} intensity={0.8} color="#ffffff" />
 			<pointLight position={[5, -5, -5]} intensity={0.7} color="#ffffff" />
 			<pointLight position={[0, 5, -5]} intensity={0.6} color="#ffeaa7" />
 
-			{/* NEW: Additional point lights for 360° coverage */}
-			<pointLight position={[0, -5, 0]} intensity={0.4} color="#ffffff" />
-			<pointLight position={[-3, 0, -3]} intensity={0.5} color="#ffffff" />
-			<pointLight position={[3, 0, -3]} intensity={0.5} color="#ffffff" />
+			{/* New lights extra for the right side*/}
+             <pointLight position={[5, 5, 5]} intensity={0.8} color="#ffffff" />
+			 <directionalLight position={[5, 3, -3]} intensity={1.0} color="#ffffff" />
+
+			{/*Additional point lights for 360° coverage */}
+			<pointLight position={[0, -8, 0]} intensity={0.8} color="#ffffff" />
+			<pointLight position={[-3, 0, -3]} intensity={0.5} color="#fafafa" />
+			<pointLight position={[3, 0, -3]} intensity={0.5} color="#fffef7" />
 
 			{/* Improved Silhouette lighting for  shape definition */}
 			<spotLight
