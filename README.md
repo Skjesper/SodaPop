@@ -51,28 +51,28 @@ This project uses Next.js 15 with App Router for optimal performance and develop
 
 SodaPop/
 ├── src/
-│ ├── app/ Next.js App Router
-│ ├── components/
-│ │ ├── 3d/ Active 3D components
-│ │ │ ├── Scene.jsx Main 3D scene orchestrator
-│ │ │ ├── Model.jsx 3D model management
-│ │ │ └── SpinTransition.jsx Animation system
-│ │ ├── ui/ User interface components
-│ │ │ ├── FlavourPickerButton.tsx
-│ │ │ ├── IngredientsDropdown.tsx
-│ │ │ └── AddToCartButton.tsx
-│ │ └── componentsGY/ Extended 3D components
-│ │ ├── FruitFactory.jsx Procedural generation
-│ │ └── IceCircles.jsx Ice effects
-│ ├── config/
-│ │ ├── modelConfig.js Assets configuration
-│ │ └── flavorConfig.js Content configuration
-│ ├── factories/ Procedural generation patterns
-│ └── hooks/ Custom React utilities
+│   ├── app/                    # Next.js App Router
+│   ├── components/
+│   │   ├── 3d/                 # Active 3D components
+│   │   │   ├── Scene.jsx       # Main 3D scene orchestrator
+│   │   │   ├── Model.jsx       # 3D model management
+│   │   │   └── SpinTransition.jsx # Animation system
+│   │   ├── ui/                 # User interface components
+│   │   │   ├── FlavourPickerButton.tsx
+│   │   │   ├── IngredientsDropdown.tsx
+│   │   │   └── AddToCartButton.tsx
+│   │   └── componentsGY/       # Extended 3D components
+│   │       ├── FruitFactory.jsx # Procedural generation
+│   │       └── IceCircles.jsx  # Ice effects
+│   ├── config/
+│   │   ├── modelConfig.js      # Assets configuration
+│   │   └── flavorConfig.js     # Content configuration
+│   ├── factories/              # Procedural generation patterns
+│   └── hooks/                  # Custom React utilities
 ├── public/
-│ ├── frolig1.glb Main 3D model
-│ └── textures/ Product textures
-└── README.md Project documentation
+│   ├── frolig1.glb            # Main 3D model
+│   └── textures/              # Product textures
+└── README.md                  # Project documentation
 
 ## How to Use
 
