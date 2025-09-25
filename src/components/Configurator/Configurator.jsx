@@ -3,7 +3,7 @@
 import { useState, Suspense } from 'react'
 import { Canvas } from '@react-three/fiber'
 import Scene from '../3d/Scene'
-import LoadingFallback from '../3d/LoadingFallback'
+import LoadingFallback from '../componentsGY/LoadingFallback'
 import { CONFIG_OPTIONS } from '../../config/modelConfig'
 import styles from './configurator.module.css'
 

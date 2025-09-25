@@ -14,7 +14,6 @@ export default function AddToCartButton({
 	const [isClicked, setIsClicked] = useState(false)
 	const [isClient, setIsClient] = useState(false)
 
-	// Sätt isClient till true efter mount
 	useEffect(() => {
 		setIsClient(true)
 	}, [])
@@ -31,7 +30,6 @@ export default function AddToCartButton({
 		}, clickDuration)
 	}
 
-	// Sätt CSS custom properties - endast på klient för att undvika hydration
 	const buttonStyle =
 		isClient && flavorColors
 			? {

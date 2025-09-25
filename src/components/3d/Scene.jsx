@@ -8,10 +8,8 @@ import SpinTransition from './SpinTransition'
 export default function Scene({ config, windowSize }) {
 	console.log('Scene received config:', config)
 
-	// Ref för OrbitControls
 	const controlsRef = useRef()
 
-	// State för att hantera hydration
 	const [isClient, setIsClient] = useState(false)
 	const [lightIntensity, setLightIntensity] = useState({
 		ambient: 0.55,
@@ -25,7 +23,6 @@ export default function Scene({ config, windowSize }) {
 		zoomSpeed: 1.0
 	})
 
-	// Håll koll på tidigare textureUrl för att detecta ändringar
 	const prevTextureUrl = useRef(config.textureUrl)
 
 	useEffect(() => {
