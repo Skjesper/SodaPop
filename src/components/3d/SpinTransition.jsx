@@ -15,12 +15,11 @@ export default function SpinTransition({
 	const [canStop, setCanStop] = useState(false)
 	const [rotationsCompleted, setRotationsCompleted] = useState(0)
 	const [lastRotation, setLastRotation] = useState(0)
-	// Added effect "Rebound/jump" for the 3d
+
 	const [bouncing, setBouncing] = useState(false)
 	const [bounceFrameStart, setBounceFrameStart] = useState(0) // Frame count when bounce starts
-	const frameCountRef = useRef(0) // Frame counter
+	const frameCountRef = useRef(0)
 
-	// Detects trigger change
 	useEffect(() => {
 		if (previousTrigger !== trigger && previousTrigger !== undefined) {
 			if (groupRef.current) {
@@ -38,19 +37,16 @@ export default function SpinTransition({
 		setPreviousTrigger(trigger)
 	}, [trigger, previousTrigger])
 
-	// Animation Spin
 	useFrame(() => {
-		frameCountRef.current += 1 // Increment frame count
+		frameCountRef.current += 1
 
 		if (!groupRef.current) return
 
 		const group = groupRef.current
 
-		// Spin logic
 		if (isSpinning) {
 			group.rotation.y += spinSpeed * 0.028
 
-			// Simplified rotation counting
 			if (!canStop) {
 				const totalRotated = group.rotation.y - lastRotation
 				const completedSpins = Math.floor(totalRotated / (Math.PI * 2))
@@ -63,7 +59,6 @@ export default function SpinTransition({
 				}
 			}
 
-			// Stop condition
 			if (canStop) {
 				const currentRot = group.rotation.y
 				const rotationsFromSaved = currentRot - savedRotation
@@ -71,12 +66,10 @@ export default function SpinTransition({
 					Math.ceil(rotationsFromSaved / (Math.PI * 2)) * Math.PI * 2
 				const targetRot = savedRotation + nextFullRotation
 
-				// Overlapp the spin with the Jump/Rebound
 				if (currentRot >= targetRot - 0.2) {
-					// Starts the bounce a bit before spins stopps
 					if (!bouncing) {
 						setBouncing(true)
-						setBounceFrameStart(frameCountRef.current) // Use frames instead of Date.now
+						setBounceFrameStart(frameCountRef.current)
 						setTimeout(() => setBouncing(false), 300)
 					}
 
@@ -89,10 +82,9 @@ export default function SpinTransition({
 			}
 		}
 
-		// Logic for the Rebounce effect
 		if (bouncing && bounceFrameStart > 0) {
 			const framesPassed = frameCountRef.current - bounceFrameStart
-			const bounceProgress = framesPassed / 36 //= 600ms
+			const bounceProgress = framesPassed / 36
 
 			if (bounceProgress < 1) {
 				const bounceHeight =

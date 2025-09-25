@@ -1,59 +1,52 @@
-"use client";
+'use client'
 
-import { Suspense, useState, useEffect, useRef } from "react";
-import { OrbitControls } from "@react-three/drei";
-import Model from "./Model";
-import SpinTransition from "./SpinTransition";
-import FruitBackground from "./FruitBackground";
-import IceCircles from "./IceCircles";
-
-
+import { Suspense, useState, useEffect, useRef } from 'react'
+import { OrbitControls } from '@react-three/drei'
+import Model from './Model'
+import SpinTransition from './SpinTransition'
 
 export default function Scene({ config, windowSize }) {
-	console.log('Scene received config:', config);
+	console.log('Scene received config:', config)
 
-	// Ref för OrbitControls
-	const controlsRef = useRef();
+	const controlsRef = useRef()
 
-	// State för att hantera hydration
-	const [isClient, setIsClient] = useState(false);
+	const [isClient, setIsClient] = useState(false)
 	const [lightIntensity, setLightIntensity] = useState({
 		ambient: 0.55,
-		main: 2.0,
-	});
+		main: 2.0
+	})
 	const [controlSettings, setControlSettings] = useState({
 		enablePan: false,
 		minDistance: 10,
 		maxDistance: 100,
 		rotateSpeed: 1.0,
-		zoomSpeed: 1.0,
-	});
+		zoomSpeed: 1.0
+	})
 
-	// Håll koll på tidigare textureUrl för att detecta ändringar
-	const prevTextureUrl = useRef(config.textureUrl);
+	const prevTextureUrl = useRef(config.textureUrl)
 
 	useEffect(() => {
-		setIsClient(true);
-	}, []);
+		setIsClient(true)
+	}, [])
 
 	useEffect(() => {
 		if (isClient && windowSize) {
-			const isMobile = windowSize.width < 768;
+			const isMobile = windowSize.width < 768
 
 			setLightIntensity({
 				ambient: isMobile ? 0.66 : 0.55,
-				main: isMobile ? 2.2 : 2.0,
-			});
+				main: isMobile ? 2.2 : 2.0
+			})
 
 			setControlSettings({
 				enablePan: !isMobile,
 				minDistance: isMobile ? 15 : 10,
 				maxDistance: isMobile ? 120 : 100,
 				rotateSpeed: isMobile ? 0.8 : 1.0,
-				zoomSpeed: isMobile ? 0.6 : 1.0,
-			});
+				zoomSpeed: isMobile ? 0.6 : 1.0
+			})
 		}
-	}, [isClient, windowSize]);
+	}, [isClient, windowSize])
 
 	useEffect(() => {
 		if (
@@ -61,10 +54,10 @@ export default function Scene({ config, windowSize }) {
 			controlsRef.current &&
 			prevTextureUrl.current !== config.textureUrl
 		) {
-			controlsRef.current.reset();
-			prevTextureUrl.current = config.textureUrl;
+			controlsRef.current.reset()
+			prevTextureUrl.current = config.textureUrl
 		}
-	}, [config.textureUrl, isClient]);
+	}, [config.textureUrl, isClient])
 
 	return (
 		<>
@@ -167,5 +160,5 @@ export default function Scene({ config, windowSize }) {
 				/>
 			)}
 		</>
-	);
+	)
 }
